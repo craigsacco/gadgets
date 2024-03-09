@@ -5,11 +5,13 @@ target_include_directories(Example
 )
 
 target_link_libraries(Example
-    PRIVATE Boost::asio
+    PRIVATE Gadgets::Core
 )
 
 target_sources(Example
     PUBLIC  src/main.cpp
 )
 
-set_target_properties(Example PROPERTIES FOLDER "Gadgets/Example")
+set_target_properties(Example PROPERTIES
+    FOLDER "Gadgets/Example"
+)
