@@ -26,7 +26,7 @@ namespace Gadgets
 
 			virtual std::string Name() const = 0;
 			virtual std::string Type() const = 0;
-
+			virtual void SetTaskQueue(Core::ITaskQueueSPtr pTaskQueue) = 0;
 			virtual Core::ITaskQueueSPtr GetTaskQueue() const = 0;
 
 		protected:

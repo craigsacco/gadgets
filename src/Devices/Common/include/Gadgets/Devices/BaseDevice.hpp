@@ -24,14 +24,17 @@ namespace Gadgets
 			// overrides from IDevice
 			void Initialise() override final;
 			void Shutdown() override final;
+			void Wait() override final;
 			void Wait(std::chrono::milliseconds timeout_ms) override final;
 			std::string Name() const override final;
 			std::string Type() const override final;
 
+			std::chrono::milliseconds DefaultTimeout() const;
+
 		protected:
 			void StartAsyncAction();
 			void FinaliseAsyncAction(DeviceResponse response);
-			virtual DeviceResponse ToDeviceResponse(DriverResponse response) const = 0;
+			virtual DeviceResponse ToDeviceResponse(DriverResponse response) const;
 
 		private:
 			const std::string m_name;

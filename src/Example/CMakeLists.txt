@@ -6,6 +6,8 @@ target_include_directories(Example
 
 target_link_libraries(Example
     PRIVATE Gadgets::Core
+            Gadgets::Devices::DigitalOutput
+            Gadgets::Drivers::EmulatedDigitalOutput
 )
 
 target_sources(Example

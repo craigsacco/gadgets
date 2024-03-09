@@ -4,6 +4,8 @@
 #include <Gadgets/Devices/IDeviceDriver.hpp>
 #include <Gadgets/Core/ITaskQueue.hpp>
 
+#include <map>
+
 namespace Gadgets
 {
 	namespace Devices
@@ -41,6 +43,11 @@ namespace Gadgets
 					});
 				});
 		}
+
+		void BaseDevice::Wait()
+		{
+			Wait(DefaultTimeout());
+		}
 		
 		void BaseDevice::Wait(std::chrono::milliseconds timeout_ms)
 		{
@@ -57,6 +64,11 @@ namespace Gadgets
 			return m_type;
 		}
 
+		std::chrono::milliseconds BaseDevice::DefaultTimeout() const
+		{
+			return std::chrono::milliseconds(2000);
+		}
+
 		void BaseDevice::StartAsyncAction()
 		{
 			if (!m_semaphore.Acquire())
@@ -71,6 +83,21 @@ namespace Gadgets
 			{
 				throw new std::exception("Device should have been busy");
 			}
+		}
+
+		DeviceResponse BaseDevice::ToDeviceResponse(DriverResponse response) const
+		{
+			static const std::map<DriverResponse, DeviceResponse> responseMap = {
+				std::make_pair(StandardDriverResponses::DriverOK, StandardDeviceResponses::DeviceOK),
+				std::make_pair(StandardDriverResponses::DriverFailed, StandardDeviceResponses::DeviceFailed),
+			};
+
+			if (responseMap.find(response) != responseMap.end())
+			{
+				return responseMap.at(response);
+			}
+
+			return StandardDeviceResponses::DeviceFailed;
 		}
 	}
 }

@@ -16,6 +16,7 @@ namespace Gadgets
 		public:
 			virtual void Initialise() = 0;
 			virtual void Shutdown() = 0;
+			virtual void Wait() = 0;
 			virtual void Wait(std::chrono::milliseconds timeout_ms) = 0;
 
 			virtual std::string Name() const = 0;
