@@ -1,0 +1,24 @@
+add_library(GadgetsDevicesCommon)
+add_library(Gadgets::Devices::Common ALIAS GadgetsDevicesCommon)
+
+target_include_directories(GadgetsDevicesCommon
+    PUBLIC  include
+    PRIVATE src
+)
+
+target_link_libraries(GadgetsDevicesCommon
+    PUBLIC  Gadgets::Core
+)
+
+target_sources(GadgetsDevicesCommon
+    PRIVATE src/BaseDevice.cpp
+            include/Gadgets/Devices/BaseDevice.hpp
+            include/Gadgets/Devices/DeviceResponse.hpp
+            include/Gadgets/Devices/DriverResponse.hpp
+            include/Gadgets/Devices/IDevice.hpp
+            include/Gadgets/Devices/IDeviceDriver.hpp
+)
+
+set_target_properties(GadgetsDevicesCommon PROPERTIES
+    FOLDER "Gadgets/Devices"
+)

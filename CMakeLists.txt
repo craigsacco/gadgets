@@ -8,5 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "$ CMake Targets")
 
+add_compile_definitions(_WIN32_WINNT=0x0601)
+
 add_subdirectory(lib)
 add_subdirectory(src)

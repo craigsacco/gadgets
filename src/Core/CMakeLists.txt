@@ -11,9 +11,11 @@ target_link_libraries(GadgetsCore
 )
 
 target_sources(GadgetsCore
-    PRIVATE src/TaskQueue.cpp
+    PRIVATE src/Semaphore.cpp
+            src/TaskQueue.cpp
             src/Thread.cpp
             include/Gadgets/Core/ITaskQueue.hpp
+            include/Gadgets/Core/Semaphore.hpp
             include/Gadgets/Core/TaskQueue.hpp
             include/Gadgets/Core/Thread.hpp
 )

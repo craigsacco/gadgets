@@ -18,11 +18,11 @@ namespace Gadgets
 			virtual ~TaskQueue();
 
 			// overrides from Thread
-			void RunInternal() override;
-			void NotifyStopping() override;
+			void RunInternal() override final;
+			void NotifyStopping() override final;
 
 			// overrides from ITaskQueue
-			void Enqueue(std::function<void()> task) override;
+			void Enqueue(std::function<void()> task) override final;
 
 		private:
 			boost::asio::io_context m_context;
