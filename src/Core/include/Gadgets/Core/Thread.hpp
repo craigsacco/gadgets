@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <Gadgets/Core/IObject.hpp>
+
 #include <thread>
 #include <mutex>
 
@@ -9,7 +11,7 @@ namespace Gadgets
 {
 	namespace Core
 	{
-		class Thread
+		class Thread : public virtual IObject
 		{
 		public:
 			Thread(const std::string& name);

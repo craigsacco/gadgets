@@ -1,26 +1,25 @@
+#include <Gadgets/Core/LoggerMacros.hpp>
+#include <Gadgets/Core/LoggerSingleton.hpp>
 #include <Gadgets/Core/TaskQueue.hpp>
-#include <Gadgets/Core/Semaphore.hpp>
 #include <Gadgets/Devices/DigitalOutputDevice.hpp>
 #include <Gadgets/Drivers/EmulatedDigitalOutputDriver.hpp>
 
 void testTaskQueue()
 {
-    printf("Testing the task queue\n\n");
+    LOG_INFO("Testing the task queue");
 
     auto pTaskQueue = std::make_shared<Gadgets::Core::TaskQueue>("main");
 
-    printf("Starting\n");
     pTaskQueue->Start();
-    printf("Started\n");
-
+    
     for (int i = 0; i < 50; i++)
     {
-        pTaskQueue->Enqueue([i] { printf("%i\n", i); });
+        pTaskQueue->Enqueue([i] {
+            //LOG_INFO("%i\n", i);
+        });
     }
 
-    printf("Stopping\n");
     pTaskQueue->Stop();
-    printf("Stopped\n");
 }
 
 void testDeviceAndDriverInfrastructure()
@@ -66,8 +65,12 @@ void testDeviceAndDriverInfrastructure()
 
 int main(int argc, char** argv)
 {
-    // testTaskQueue();
+    Gadgets::Core::LoggerSingleton::Get();
+
+    testTaskQueue();
     // testDeviceAndDriverInfrastructure();
+
+    Gadgets::Core::LoggerSingleton::Destroy();
 
     return 0;
 }

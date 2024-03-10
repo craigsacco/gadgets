@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <Gadgets/Core/IObject.hpp>
 #include <Gadgets/Devices/DeviceResponse.hpp>
 
 #include <chrono>
@@ -11,7 +12,7 @@ namespace Gadgets
 {
 	namespace Devices
 	{
-		class IDevice
+		class IDevice : public virtual Core::IObject
 		{
 		public:
 			virtual void Initialise() = 0;
@@ -20,7 +21,6 @@ namespace Gadgets
 			virtual void Wait(std::chrono::milliseconds timeout_ms) = 0;
 
 			virtual std::string Name() const = 0;
-			virtual std::string Type() const = 0;
 
 		protected:
 			IDevice() = default;

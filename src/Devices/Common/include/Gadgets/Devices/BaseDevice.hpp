@@ -21,12 +21,14 @@ namespace Gadgets
 			BaseDevice(const std::string& name, const std::string& type, IDeviceDriverSPtr pDriver);
 			virtual ~BaseDevice();
 
+			// overrides from IObject
+			std::string Name() const override final;
+
 			// overrides from IDevice
 			void Initialise() override final;
 			void Shutdown() override final;
 			void Wait() override final;
 			void Wait(std::chrono::milliseconds timeout_ms) override final;
-			std::string Name() const override final;
 			std::string Type() const override final;
 
 			std::chrono::milliseconds DefaultTimeout() const;

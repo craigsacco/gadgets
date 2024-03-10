@@ -2,6 +2,7 @@
 
 #include <Gadgets/Drivers/BaseDeviceDriver.hpp>
 #include <Gadgets/Core/ITaskQueue.hpp>
+#include <Gadgets/Core/AssertionMacros.hpp>
 
 namespace Gadgets
 {
@@ -18,26 +19,26 @@ namespace Gadgets
 		{
 		}
 
-		std::string BaseDeviceDriver::Name() const
-		{
-			return m_name;
-		}
-
 		std::string BaseDeviceDriver::Type() const
 		{
 			return m_type;
 		}
 
+		std::string BaseDeviceDriver::Name() const
+		{
+			return m_name;
+		}
+
 		void BaseDeviceDriver::SetTaskQueue(Core::ITaskQueueSPtr pTaskQueue)
 		{
-			// TODO: check if already set
+			ASSERT_MSG(m_pTaskQueue == nullptr, "Task queue already set");
 
 			m_pTaskQueue = pTaskQueue;
 		}
 
 		Core::ITaskQueueSPtr BaseDeviceDriver::GetTaskQueue() const
 		{
-			//TODO: check if not set
+			ASSERT_MSG(m_pTaskQueue != nullptr, "Task queue not set");
 
 			return m_pTaskQueue;
 		}

@@ -17,6 +17,9 @@ namespace Gadgets
 			TaskQueue(const std::string& name);
 			virtual ~TaskQueue();
 
+			// overrides from IObject
+			std::string Type() const final;
+
 			// overrides from Thread
 			void RunInternal() override final;
 			void NotifyStopping() override final;

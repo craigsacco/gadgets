@@ -17,6 +17,11 @@ namespace Gadgets
 		{
 		}
 
+		std::string TaskQueue::Type() const
+		{
+			return "TaskQueue";
+		}
+
 		void TaskQueue::RunInternal()
 		{
 			for(;;)

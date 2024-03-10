@@ -18,9 +18,11 @@ namespace Gadgets
 			BaseDeviceDriver(const std::string& name, const std::string& type);
 			virtual ~BaseDeviceDriver();
 
+			// overrides from IObject
+			std::string Type() const override final;
+
 			// overrides from IDeviceDriver
 			std::string Name() const override final;
-			std::string Type() const override final;
 			void SetTaskQueue(Core::ITaskQueueSPtr pTaskQueue) override final;
 			Core::ITaskQueueSPtr GetTaskQueue() const override final;
 

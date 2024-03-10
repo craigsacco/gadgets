@@ -17,6 +17,11 @@ namespace Gadgets
 		{
 		}
 
+		std::string Semaphore::Type() const
+		{
+			return "Semaphore";
+		}
+
 		bool Semaphore::Acquire()
 		{
 			std::lock_guard<std::mutex> lock(m_mutex);

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <Gadgets/Core/IObject.hpp>
 #include <Gadgets/Devices/DriverResponse.hpp>
 
 #include <functional>
@@ -18,14 +19,13 @@ namespace Gadgets
 
 	namespace Devices
 	{
-		class IDeviceDriver
+		class IDeviceDriver : public virtual Core::IObject
 		{
 		public:
 			virtual void Initialise(std::function<void(DriverResponse)> cb) = 0;
 			virtual void Shutdown(std::function<void(DriverResponse)> cb) = 0;
 
 			virtual std::string Name() const = 0;
-			virtual std::string Type() const = 0;
 			virtual void SetTaskQueue(Core::ITaskQueueSPtr pTaskQueue) = 0;
 			virtual Core::ITaskQueueSPtr GetTaskQueue() const = 0;
 

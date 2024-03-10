@@ -3,6 +3,7 @@
 #include <Gadgets/Devices/BaseDevice.hpp>
 #include <Gadgets/Devices/IDeviceDriver.hpp>
 #include <Gadgets/Core/ITaskQueue.hpp>
+#include <Gadgets/Core/ExceptionMacros.hpp>
 
 #include <map>
 
@@ -20,6 +21,11 @@ namespace Gadgets
 
 		BaseDevice::~BaseDevice()
 		{
+		}
+
+		std::string BaseDevice::Name() const
+		{
+			return m_name;
 		}
 
 		void BaseDevice::Initialise()
@@ -51,12 +57,10 @@ namespace Gadgets
 		
 		void BaseDevice::Wait(std::chrono::milliseconds timeout_ms)
 		{
-			m_semaphore.Wait(timeout_ms);
-		}
-
-		std::string BaseDevice::Name() const
-		{
-			return m_name;
+			if (!m_semaphore.Wait(timeout_ms))
+			{
+				THROW_RUNTIME_ERROR("Action timed out");
+			}
 		}
 
 		std::string BaseDevice::Type() const
@@ -73,7 +77,7 @@ namespace Gadgets
 		{
 			if (!m_semaphore.Acquire())
 			{
-				throw new std::exception("Device is busy");
+				THROW_RUNTIME_ERROR("Device is busy");
 			}
 		}
 
@@ -81,7 +85,7 @@ namespace Gadgets
 		{
 			if (!m_semaphore.Release())
 			{
-				throw new std::exception("Device should have been busy");
+				THROW_LOGIC_ERROR("StartAsyncAction() not called beforehand");
 			}
 		}
 

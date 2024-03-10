@@ -11,11 +11,20 @@ target_link_libraries(GadgetsCore
 )
 
 target_sources(GadgetsCore
-    PRIVATE src/Semaphore.cpp
+    PRIVATE src/LoggerSingleton.cpp
+            src/Semaphore.cpp
             src/TaskQueue.cpp
             src/Thread.cpp
+            include/Gadgets/Core/AssertionMacros.hpp
+            include/Gadgets/Core/CommonMacros.hpp
+            include/Gadgets/Core/ExceptionMacros.hpp
+            include/Gadgets/Core/ILogger.hpp
+            include/Gadgets/Core/IObject.hpp
             include/Gadgets/Core/ITaskQueue.hpp
+            include/Gadgets/Core/LoggerMacros.hpp
+            include/Gadgets/Core/LoggerSingleton.hpp
             include/Gadgets/Core/Semaphore.hpp
+            include/Gadgets/Core/Singleton.hpp
             include/Gadgets/Core/TaskQueue.hpp
             include/Gadgets/Core/Thread.hpp
 )

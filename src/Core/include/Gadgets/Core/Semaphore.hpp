@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <Gadgets/Core/IObject.hpp>
+
 #include <chrono>
 #include <mutex>
 #include <condition_variable>
@@ -10,11 +12,14 @@ namespace Gadgets
 {
 	namespace Core
 	{
-		class Semaphore
+		class Semaphore : public virtual IObject
 		{
 		public:
 			Semaphore();
 			virtual ~Semaphore();
+
+			// overrides from IObject
+			std::string Type() const final;
 
 			bool Acquire();
 			bool Release();

@@ -1,6 +1,7 @@
 
 
 #include <Gadgets/Core/Thread.hpp>
+#include <Gadgets/Core/LoggerMacros.hpp>
 
 namespace Gadgets
 {
@@ -25,8 +26,12 @@ namespace Gadgets
 
 			if (m_state == Stopped)
 			{
+				LOG_DEBUG_INTERNAL("Starting thread " + m_name);
+
 				m_state = Started;
 				m_thread = std::thread([this]() { this->Run(); });
+
+				LOG_DEBUG_INTERNAL("Started thread " + m_name);
 			}
 		}
 
@@ -36,10 +41,14 @@ namespace Gadgets
 
 			if (m_state == Started)
 			{
+				LOG_DEBUG_INTERNAL("Stopping thread " + m_name);
+
 				m_state = Stopping;
 				NotifyStopping();
 				m_thread.join();
 				m_thread = std::thread();
+
+				LOG_DEBUG_INTERNAL("Stopped thread " + m_name);
 			}
 		}
 
