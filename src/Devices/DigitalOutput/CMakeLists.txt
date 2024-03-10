@@ -1,5 +1,7 @@
-add_library(GadgetsDevicesDigitalOutput)
-add_library(Gadgets::Devices::DigitalOutput ALIAS GadgetsDevicesDigitalOutput)
+add_gadgets_library(GadgetsDevicesDigitalOutput
+    #[[ALIAS]]      Gadgets::Devices::DigitalOutput
+    #[[IDEFOLDER]]  "Gadgets/Devices"
+)
 
 target_include_directories(GadgetsDevicesDigitalOutput
     PUBLIC  include
@@ -15,8 +17,4 @@ target_sources(GadgetsDevicesDigitalOutput
             include/Gadgets/Devices/DigitalOutputDevice.hpp
             include/Gadgets/Devices/IDigitalOutputDevice.hpp
             include/Gadgets/Devices/IDigitalOutputDriver.hpp
-)
-
-set_target_properties(GadgetsDevicesDigitalOutput PROPERTIES
-    FOLDER "Gadgets/Devices"
 )

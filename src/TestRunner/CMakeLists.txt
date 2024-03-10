@@ -1,4 +1,7 @@
-add_executable(GadgetsTestRunner)
+add_gadgets_executable(GadgetsTestRunner
+    #[[ALIAS]]      Gadgets::TestRunner
+    #[[IDEFOLDER]]  "Gadgets/TestRunner"
+)
 
 target_include_directories(GadgetsTestRunner
     PRIVATE include
@@ -14,8 +17,4 @@ target_link_libraries(GadgetsTestRunner
 target_sources(GadgetsTestRunner
     PRIVATE src/main.cpp
             src/SemaphoreTests.cpp
-)
-
-set_target_properties(GadgetsTestRunner PROPERTIES
-    FOLDER "Gadgets/TestRunner"
 )

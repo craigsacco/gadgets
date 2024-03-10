@@ -1,5 +1,7 @@
-add_library(GadgetsDriversEmulatedDigitalOutput)
-add_library(Gadgets::Drivers::EmulatedDigitalOutput ALIAS GadgetsDriversEmulatedDigitalOutput)
+add_gadgets_library(GadgetsDriversEmulatedDigitalOutput
+    #[[ALIAS]]      Gadgets::Drivers::EmulatedDigitalOutput
+    #[[IDEFOLDER]]  "Gadgets/Drivers"
+)
 
 target_include_directories(GadgetsDriversEmulatedDigitalOutput
     PUBLIC  include
@@ -14,8 +16,4 @@ target_link_libraries(GadgetsDriversEmulatedDigitalOutput
 target_sources(GadgetsDriversEmulatedDigitalOutput
     PRIVATE src/EmulatedDigitalOutputDriver.cpp
             include/Gadgets/Drivers/EmulatedDigitalOutputDriver.hpp
-)
-
-set_target_properties(GadgetsDriversEmulatedDigitalOutput PROPERTIES
-    FOLDER "Gadgets/Drivers"
 )

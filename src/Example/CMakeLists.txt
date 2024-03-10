@@ -1,19 +1,18 @@
-add_executable(Example)
+add_gadgets_executable(GadgetsExample
+    #[[ALIAS]]      Gadgets::Example
+    #[[IDEFOLDER]]  "Gadgets/Example"
+)
 
-target_include_directories(Example
+target_include_directories(GadgetsExample
     PRIVATE include
 )
 
-target_link_libraries(Example
+target_link_libraries(GadgetsExample
     PRIVATE Gadgets::Core
             Gadgets::Devices::DigitalOutput
             Gadgets::Drivers::EmulatedDigitalOutput
 )
 
-target_sources(Example
+target_sources(GadgetsExample
     PUBLIC  src/main.cpp
-)
-
-set_target_properties(Example PROPERTIES
-    FOLDER "Gadgets/Example"
 )

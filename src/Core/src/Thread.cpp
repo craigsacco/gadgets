@@ -5,69 +5,69 @@
 
 namespace Gadgets
 {
-    namespace Core
+namespace Core
+{
+Thread::Thread( const std::string& name ) : m_name( name ), m_thread(), m_state( Stopped ), m_mutex() {}
+
+Thread::~Thread() { Stop(); }
+
+void
+Thread::Start()
+{
+    std::lock_guard lock( m_mutex );
+
+    if ( m_state == Stopped )
     {
-        Thread::Thread( const std::string& name ) : m_name( name ), m_thread(), m_state( Stopped ), m_mutex() {}
+        LOG_DEBUG_INTERNAL( "Starting thread " + m_name );
 
-        Thread::~Thread() { Stop(); }
+        m_state = Started;
+        m_thread = std::thread( [ this ]() { this->Run(); } );
 
-        void
-        Thread::Start()
-        {
-            std::lock_guard lock( m_mutex );
+        LOG_DEBUG_INTERNAL( "Started thread " + m_name );
+    }
+}
 
-            if ( m_state == Stopped )
-            {
-                LOG_DEBUG_INTERNAL( "Starting thread " + m_name );
+void
+Thread::Stop()
+{
+    std::lock_guard lock( m_mutex );
 
-                m_state = Started;
-                m_thread = std::thread( [ this ]() { this->Run(); } );
+    if ( m_state == Started )
+    {
+        LOG_DEBUG_INTERNAL( "Stopping thread " + m_name );
 
-                LOG_DEBUG_INTERNAL( "Started thread " + m_name );
-            }
-        }
+        m_state = Stopping;
+        NotifyStopping();
+        m_thread.join();
+        m_thread = std::thread();
 
-        void
-        Thread::Stop()
-        {
-            std::lock_guard lock( m_mutex );
+        LOG_DEBUG_INTERNAL( "Stopped thread " + m_name );
+    }
+}
 
-            if ( m_state == Started )
-            {
-                LOG_DEBUG_INTERNAL( "Stopping thread " + m_name );
+void
+Thread::Run()
+{
+    RunInternal();
+    m_state = Stopped;
+}
 
-                m_state = Stopping;
-                NotifyStopping();
-                m_thread.join();
-                m_thread = std::thread();
+void
+Thread::NotifyStopping()
+{
+    // by default, do nothing
+}
 
-                LOG_DEBUG_INTERNAL( "Stopped thread " + m_name );
-            }
-        }
+std::string
+Thread::Name() const
+{
+    return m_name;
+}
 
-        void
-        Thread::Run()
-        {
-            RunInternal();
-            m_state = Stopped;
-        }
-
-        void
-        Thread::NotifyStopping()
-        {
-            // by default, do nothing
-        }
-
-        std::string
-        Thread::Name() const
-        {
-            return m_name;
-        }
-
-        bool
-        Thread::IsStopping() const
-        {
-            return ( m_state == Stopping );
-        }
-    } // namespace Core
+bool
+Thread::IsStopping() const
+{
+    return ( m_state == Stopping );
+}
+} // namespace Core
 } // namespace Gadgets

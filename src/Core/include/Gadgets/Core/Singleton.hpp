@@ -8,57 +8,56 @@
 
 namespace Gadgets
 {
-    namespace Core
+namespace Core
+{
+template <typename TInterface> class Singleton
+{
+public:
+    using TInterfaceSPtr = std::shared_ptr<TInterface>;
+
+    static TInterfaceSPtr
+    Get()
     {
-        template <typename TInterface> class Singleton
+        std::lock_guard<std::mutex> lock( s_mutex );
+
+        if ( s_pSingleton == nullptr )
         {
-          public:
-            using TInterfaceSPtr = std::shared_ptr<TInterface>;
+            s_pSingleton = Create();
+        }
 
-            static TInterfaceSPtr
-            Get()
-            {
-                std::lock_guard<std::mutex> lock( s_mutex );
+        return s_pSingleton;
+    }
 
-                if ( s_pSingleton == nullptr )
-                {
-                    s_pSingleton = Create();
-                }
+    static TInterfaceSPtr Create();
 
-                return s_pSingleton;
-            }
+    static void
+    Register( TInterfaceSPtr pInstance )
+    {
+        ASSERT_MSG( s_pSingleton == nullptr, "Singleton instance already populated" );
 
-            static TInterfaceSPtr
-            Create();
+        std::lock_guard<std::mutex> lock( s_mutex );
 
-            static void
-            Register( TInterfaceSPtr pInstance )
-            {
-                ASSERT_MSG( s_pSingleton == nullptr, "Singleton instance already populated" );
+        s_pSingleton = pInstance;
+    }
 
-                std::lock_guard<std::mutex> lock( s_mutex );
+    static void
+    Destroy()
+    {
+        std::lock_guard<std::mutex> lock( s_mutex );
 
-                s_pSingleton = pInstance;
-            }
+        if ( s_pSingleton != nullptr )
+        {
+            s_pSingleton.reset();
+            s_pSingleton = nullptr;
+        }
+    }
 
-            static void
-            Destroy()
-            {
-                std::lock_guard<std::mutex> lock( s_mutex );
+private:
+    Singleton() = delete;
+    ~Singleton() = delete;
 
-                if ( s_pSingleton != nullptr )
-                {
-                    s_pSingleton.reset();
-                    s_pSingleton = nullptr;
-                }
-            }
-
-          private:
-            Singleton() = delete;
-            ~Singleton() = delete;
-
-            static TInterfaceSPtr s_pSingleton;
-            static std::mutex s_mutex;
-        };
-    } // namespace Core
+    static TInterfaceSPtr s_pSingleton;
+    static std::mutex s_mutex;
+};
+} // namespace Core
 } // namespace Gadgets

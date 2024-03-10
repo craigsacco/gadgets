@@ -1,11 +1,15 @@
 ﻿---
-AlwaysBreakAfterReturnType: All
+AccessModifierOffset: '-4'
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: AllDefinitions
 BreakBeforeBraces: Allman
+BreakConstructorInitializers: BeforeColon
+BreakInheritanceList: BeforeColon
 ColumnLimit: '120'
 IndentWidth: '4'
 Language: Cpp
 MaxEmptyLinesToKeep: '2'
-NamespaceIndentation: All
+NamespaceIndentation: None
 PointerAlignment: Left
 ReflowComments: 'true'
 SortIncludes: 'true'

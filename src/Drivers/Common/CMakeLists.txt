@@ -1,5 +1,7 @@
-add_library(GadgetsDriversCommon)
-add_library(Gadgets::Drivers::Common ALIAS GadgetsDriversCommon)
+add_gadgets_library(GadgetsDriversCommon
+    #[[ALIAS]]      Gadgets::Drivers::Common
+    #[[IDEFOLDER]]  "Gadgets/Drivers"
+)
 
 target_include_directories(GadgetsDriversCommon
     PUBLIC  include
@@ -14,8 +16,4 @@ target_link_libraries(GadgetsDriversCommon
 target_sources(GadgetsDriversCommon
     PRIVATE src/BaseDeviceDriver.cpp
             include/Gadgets/Drivers/BaseDeviceDriver.hpp
-)
-
-set_target_properties(GadgetsDriversCommon PROPERTIES
-    FOLDER "Gadgets/Drivers"
 )

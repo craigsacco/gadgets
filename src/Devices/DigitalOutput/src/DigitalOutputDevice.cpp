@@ -6,71 +6,87 @@
 
 namespace Gadgets
 {
-    namespace Devices
-    {
-        DigitalOutputDevice::DigitalOutputDevice( const std::string& name, IDigitalOutputDriverSPtr pDriver )
-            : BaseDevice( name, "DigitalOutput", pDriver ), m_pDriver( pDriver )
-        {
-        }
+namespace Devices
+{
+DigitalOutputDevice::DigitalOutputDevice( const std::string& name, IDigitalOutputDriverSPtr pDriver )
+    : BaseDevice( name, "DigitalOutput", pDriver ), m_pDriver( pDriver )
+{
+}
 
-        DigitalOutputDevice::~DigitalOutputDevice() {}
+DigitalOutputDevice::~DigitalOutputDevice() {}
 
-        void
-        DigitalOutputDevice::On()
-        {
-            StartAsyncAction();
+void
+DigitalOutputDevice::On()
+{
+    StartAsyncAction();
 
-            m_pDriver->GetTaskQueue()->Enqueue( [ this ] {
-                m_pDriver->On(
-                    [ this ]( DriverResponse response ) { FinaliseAsyncAction( ToDeviceResponse( response ) ); } );
-            } );
-        }
+    const auto cb = [ this ]( DriverResponse driverResponse ) {
+        auto response = ToDeviceResponse( driverResponse );
+        FinaliseAsyncAction( response );
+        ResponseThrowOnError( response );
+    };
 
-        void
-        DigitalOutputDevice::Off()
-        {
-            StartAsyncAction();
+    m_pDriver->GetTaskQueue()->Enqueue( [ this, cb ] { m_pDriver->On( cb ); } );
+}
 
-            m_pDriver->GetTaskQueue()->Enqueue( [ this ] {
-                m_pDriver->Off(
-                    [ this ]( DriverResponse response ) { FinaliseAsyncAction( ToDeviceResponse( response ) ); } );
-            } );
-        }
+void
+DigitalOutputDevice::Off()
+{
+    StartAsyncAction();
 
-        void
-        DigitalOutputDevice::SetState( bool state )
-        {
-            StartAsyncAction();
+    const auto cb = [ this ]( DriverResponse driverResponse ) {
+        auto response = ToDeviceResponse( driverResponse );
+        FinaliseAsyncAction( response );
+        ResponseThrowOnError( response );
+    };
 
-            m_pDriver->GetTaskQueue()->Enqueue( [ this, state ] {
-                m_pDriver->SetState( state, [ this ]( DriverResponse response ) {
-                    FinaliseAsyncAction( ToDeviceResponse( response ) );
-                } );
-            } );
-        }
+    m_pDriver->GetTaskQueue()->Enqueue( [ this, cb ] { m_pDriver->Off( cb ); } );
+}
 
-        bool
-        DigitalOutputDevice::GetState()
-        {
-            bool state = false;
+void
+DigitalOutputDevice::SetState( bool state )
+{
+    StartAsyncAction();
 
-            StartAsyncAction();
+    const auto cb = [ this ]( DriverResponse driverResponse ) {
+        auto response = ToDeviceResponse( driverResponse );
+        FinaliseAsyncAction( response );
+        ResponseThrowOnError( response );
+    };
 
-            m_pDriver->GetTaskQueue()->Enqueue( [ this, &state ] {
-                m_pDriver->GetState( [ this, &state ]( DriverResponse response, bool returnState ) {
-                    state = returnState;
-                    FinaliseAsyncAction( ToDeviceResponse( response ) );
-                } );
-            } );
+    m_pDriver->GetTaskQueue()->Enqueue( [ this, state, cb ] { m_pDriver->SetState( state, cb ); } );
+}
 
-            Wait();
-            return state;
-        }
+bool
+DigitalOutputDevice::GetState()
+{
+    bool state = false;
 
-        DeviceResponse
-        DigitalOutputDevice::ToDeviceResponse( DriverResponse response ) const
-        {
-            return BaseDevice::ToDeviceResponse( response );
-        }
-    } // namespace Devices
+    StartAsyncAction();
+
+    const auto cb = [ this, &state ]( DriverResponse driverResponse, bool returnState ) {
+        state = returnState;
+        auto response = ToDeviceResponse( driverResponse );
+        FinaliseAsyncAction( response );
+        ResponseThrowOnError( response );
+    };
+
+    m_pDriver->GetTaskQueue()->Enqueue( [ this, cb ] { m_pDriver->GetState( cb ); } );
+
+    Wait();
+    return state;
+}
+
+DeviceResponse
+DigitalOutputDevice::ToDeviceResponse( DriverResponse response ) const
+{
+    return BaseDevice::ToDeviceResponse( response );
+}
+
+void
+DigitalOutputDevice::ResponseThrowOnError( DeviceResponse response ) const
+{
+    BaseDevice::ResponseThrowOnError( response );
+}
+} // namespace Devices
 } // namespace Gadgets

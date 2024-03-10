@@ -8,7 +8,7 @@ using namespace ::testing;
 
 class SemaphoreTests : public Test
 {
-  public:
+public:
     SemaphoreTests() : m_semaphore(), m_thread(), m_releaseResult( false ) {}
 
     void
@@ -25,7 +25,7 @@ class SemaphoreTests : public Test
         }
     }
 
-  protected:
+protected:
     void
     CreateThreadForRelease( std::chrono::milliseconds delay_ms )
     {

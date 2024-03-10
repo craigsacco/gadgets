@@ -6,17 +6,16 @@
 
 namespace Gadgets
 {
-    namespace Core
-    {
-        class IObject
-        {
-          public:
-            virtual std::string
-            Type() const = 0;
+namespace Core
+{
+class IObject
+{
+public:
+    virtual std::string Type() const = 0;
 
-          protected:
-            IObject() = default;
-            ~IObject() = default;
-        };
-    } // namespace Core
+protected:
+    IObject() = default;
+    ~IObject() = default;
+};
+} // namespace Core
 } // namespace Gadgets

@@ -10,29 +10,25 @@
 
 namespace Gadgets
 {
-    namespace Core
-    {
-        class Semaphore : public virtual IObject
-        {
-          public:
-            Semaphore();
-            virtual ~Semaphore();
+namespace Core
+{
+class Semaphore : public virtual IObject
+{
+public:
+    Semaphore();
+    virtual ~Semaphore();
 
-            // overrides from IObject
-            std::string
-            Type() const final;
+    // overrides from IObject
+    std::string Type() const final;
 
-            bool
-            Acquire();
-            bool
-            Release();
-            bool
-            Wait( std::chrono::milliseconds timeout_ms );
+    bool Acquire();
+    bool Release();
+    bool Wait( std::chrono::milliseconds timeout_ms );
 
-          private:
-            std::mutex m_mutex;
-            std::condition_variable m_cv;
-            bool m_acquired;
-        };
-    } // namespace Core
+private:
+    std::mutex m_mutex;
+    std::condition_variable m_cv;
+    bool m_acquired;
+};
+} // namespace Core
 } // namespace Gadgets

@@ -14,36 +14,32 @@
 
 namespace Gadgets
 {
-    namespace Devices
-    {
-        class IDigitalOutputDriver;
-        using IDigitalOutputDriverSPtr = std::shared_ptr<IDigitalOutputDriver>;
+namespace Devices
+{
+class IDigitalOutputDriver;
+using IDigitalOutputDriverSPtr = std::shared_ptr<IDigitalOutputDriver>;
 
-        class DigitalOutputDevice : public BaseDevice, public virtual IDigitalOutputDevice
-        {
-          public:
-            DigitalOutputDevice( const std::string& name, IDigitalOutputDriverSPtr pDriver );
-            virtual ~DigitalOutputDevice();
+class DigitalOutputDevice : public BaseDevice, public virtual IDigitalOutputDevice
+{
+public:
+    DigitalOutputDevice( const std::string& name, IDigitalOutputDriverSPtr pDriver );
+    virtual ~DigitalOutputDevice();
 
-            // overrides from DigitalOutputDevice
-            void
-            On() override final;
-            void
-            Off() override final;
-            void
-            SetState( bool state ) override final;
-            bool
-            GetState() override final;
+    // overrides from DigitalOutputDevice
+    void On() override final;
+    void Off() override final;
+    void SetState( bool state ) override final;
+    bool GetState() override final;
 
-          protected:
-            // overrides from BaseDevice
-            DeviceResponse
-            ToDeviceResponse( DriverResponse response ) const override final;
+protected:
+    // overrides from BaseDevice
+    DeviceResponse ToDeviceResponse( DriverResponse response ) const override final;
+    void ResponseThrowOnError( DeviceResponse response ) const override final;
 
-          private:
-            IDigitalOutputDriverSPtr m_pDriver;
-        };
-    } // namespace Devices
+private:
+    IDigitalOutputDriverSPtr m_pDriver;
+};
+} // namespace Devices
 } // namespace Gadgets
 
 #if defined( _MSC_VER )

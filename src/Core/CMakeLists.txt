@@ -1,5 +1,7 @@
-add_library(GadgetsCore)
-add_library(Gadgets::Core ALIAS GadgetsCore)
+add_gadgets_library(GadgetsCore
+    #[[ALIAS]]      Gadgets::Core
+    #[[IDEFOLDER]]  "Gadgets/Core"
+)
 
 target_include_directories(GadgetsCore
     PUBLIC  include
@@ -27,8 +29,4 @@ target_sources(GadgetsCore
             include/Gadgets/Core/Singleton.hpp
             include/Gadgets/Core/TaskQueue.hpp
             include/Gadgets/Core/Thread.hpp
-)
-
-set_target_properties(GadgetsCore PROPERTIES
-    FOLDER "Gadgets/Core"
 )

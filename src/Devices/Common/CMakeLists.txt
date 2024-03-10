@@ -1,5 +1,7 @@
-add_library(GadgetsDevicesCommon)
-add_library(Gadgets::Devices::Common ALIAS GadgetsDevicesCommon)
+add_gadgets_library(GadgetsDevicesCommon
+    #[[ALIAS]]      Gadgets::Devices::Common
+    #[[IDEFOLDER]]  "Gadgets/Devices"
+)
 
 target_include_directories(GadgetsDevicesCommon
     PUBLIC  include
@@ -17,8 +19,4 @@ target_sources(GadgetsDevicesCommon
             include/Gadgets/Devices/DriverResponse.hpp
             include/Gadgets/Devices/IDevice.hpp
             include/Gadgets/Devices/IDeviceDriver.hpp
-)
-
-set_target_properties(GadgetsDevicesCommon PROPERTIES
-    FOLDER "Gadgets/Devices"
 )
