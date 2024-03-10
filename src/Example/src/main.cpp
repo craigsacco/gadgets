@@ -4,66 +4,69 @@
 #include <Gadgets/Devices/DigitalOutputDevice.hpp>
 #include <Gadgets/Drivers/EmulatedDigitalOutputDriver.hpp>
 
-void testTaskQueue()
+void
+testTaskQueue()
 {
-    LOG_INFO("Testing the task queue");
+    LOG_INFO( "Testing the task queue" );
 
-    auto pTaskQueue = std::make_shared<Gadgets::Core::TaskQueue>("main");
+    auto pTaskQueue = std::make_shared<Gadgets::Core::TaskQueue>( "main" );
 
     pTaskQueue->Start();
-    
-    for (int i = 0; i < 50; i++)
+
+    for ( int i = 0; i < 50; i++ )
     {
-        pTaskQueue->Enqueue([i] {
-            //LOG_INFO("%i\n", i);
-        });
+        pTaskQueue->Enqueue( [ i ] {
+            // LOG_INFO("%i\n", i);
+        } );
     }
 
     pTaskQueue->Stop();
 }
 
-void testDeviceAndDriverInfrastructure()
+void
+testDeviceAndDriverInfrastructure()
 {
-    printf("Testing the driver infrastructure\n\n");
+    printf( "Testing the driver infrastructure\n\n" );
 
-    auto pTaskQueue = std::make_shared<Gadgets::Core::TaskQueue>("main");
+    auto pTaskQueue = std::make_shared<Gadgets::Core::TaskQueue>( "main" );
 
-    printf("Starting\n");
+    printf( "Starting\n" );
     pTaskQueue->Start();
-    printf("Started\n");
+    printf( "Started\n" );
 
-    auto pDriver = std::make_shared<Gadgets::Drivers::EmulatedDigitalOutputDriver>("EmulatedOutput");
-    pDriver->SetTaskQueue(pTaskQueue);
-    auto pDevice = std::make_shared<Gadgets::Devices::DigitalOutputDevice>("Output", pDriver);
+    auto pDriver = std::make_shared<Gadgets::Drivers::EmulatedDigitalOutputDriver>( "EmulatedOutput" );
+    pDriver->SetTaskQueue( pTaskQueue );
+    auto pDevice = std::make_shared<Gadgets::Devices::DigitalOutputDevice>( "Output", pDriver );
 
-    printf("Initialise device\n");
+    printf( "Initialise device\n" );
     pDevice->Initialise();
     pDevice->Wait();
 
-    printf("Initial GetState: %d\n", pDevice->GetState());
+    printf( "Initial GetState: %d\n", pDevice->GetState() );
     pDevice->On();
     pDevice->Wait();
-    printf("GetState: %d\n", pDevice->GetState());
+    printf( "GetState: %d\n", pDevice->GetState() );
     pDevice->Off();
     pDevice->Wait();
-    printf("GetState: %d\n", pDevice->GetState());
-    pDevice->SetState(true);
+    printf( "GetState: %d\n", pDevice->GetState() );
+    pDevice->SetState( true );
     pDevice->Wait();
-    printf("GetState: %d\n", pDevice->GetState());
-    pDevice->SetState(false);
+    printf( "GetState: %d\n", pDevice->GetState() );
+    pDevice->SetState( false );
     pDevice->Wait();
-    printf("GetState: %d\n", pDevice->GetState());
+    printf( "GetState: %d\n", pDevice->GetState() );
 
-    printf("Shutdown device\n");
+    printf( "Shutdown device\n" );
     pDevice->Shutdown();
     pDevice->Wait();
 
-    printf("Stopping\n");
+    printf( "Stopping\n" );
     pTaskQueue->Stop();
-    printf("Stopped\n");
+    printf( "Stopped\n" );
 }
 
-int main(int argc, char** argv)
+int
+main( int argc, char** argv )
 {
     Gadgets::Core::LoggerSingleton::Get();
 

@@ -1,0 +1,19 @@
+﻿---
+AlwaysBreakAfterReturnType: All
+BreakBeforeBraces: Allman
+ColumnLimit: '120'
+IndentWidth: '4'
+Language: Cpp
+MaxEmptyLinesToKeep: '2'
+NamespaceIndentation: All
+PointerAlignment: Left
+ReflowComments: 'true'
+SortIncludes: 'true'
+SpacesInContainerLiterals: 'true'
+SpacesInParentheses: 'true'
+SpacesInSquareBrackets: 'true'
+Standard: Cpp11
+TabWidth: '4'
+UseTab: Never
+
+...

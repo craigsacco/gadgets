@@ -9,19 +9,23 @@
 
 namespace Gadgets
 {
-	namespace Devices
-	{
-		class IDigitalOutputDevice : public virtual IDevice
-		{
-		public:
-			virtual void On() = 0;
-			virtual void Off() = 0;
-			virtual void SetState(bool state) = 0;
-			virtual bool GetState() = 0;
+    namespace Devices
+    {
+        class IDigitalOutputDevice : public virtual IDevice
+        {
+          public:
+            virtual void
+            On() = 0;
+            virtual void
+            Off() = 0;
+            virtual void
+            SetState( bool state ) = 0;
+            virtual bool
+            GetState() = 0;
 
-		protected:
-			IDigitalOutputDevice() = default;
-			~IDigitalOutputDevice() = default;
-		};
-	}
-}
+          protected:
+            IDigitalOutputDevice() = default;
+            ~IDigitalOutputDevice() = default;
+        };
+    } // namespace Devices
+} // namespace Gadgets
