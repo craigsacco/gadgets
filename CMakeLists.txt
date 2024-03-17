@@ -13,6 +13,9 @@ set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "$ CMake Targets")
 # include Gadget project rules
 include(Tools/gadgets.cmake)
 
+# boost needs this to silence some compiler warnings
+add_compile_definitions(_WIN32_WINNT=0x0601)
+
 # include projects from lib/ and src/ folders
 add_subdirectory(lib)
 add_subdirectory(src)

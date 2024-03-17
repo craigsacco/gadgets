@@ -1,5 +1,5 @@
-# ignore build output folder
-build/
+# ignore build output folders
+build*/
 
 # build temporary and backup files
 *.tmp

@@ -4,6 +4,7 @@
 
 #include <Gadgets/Core/AssertionMacros.hpp>
 
+#include <memory>
 #include <mutex>
 
 namespace Gadgets

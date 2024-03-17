@@ -4,6 +4,7 @@
 
 #include <Gadgets/Core/IObject.hpp>
 
+#include <cstdint>
 #include <string>
 
 namespace Gadgets

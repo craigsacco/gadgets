@@ -8,9 +8,12 @@ namespace Gadgets
 {
 namespace Core
 {
-std::shared_ptr<ILogger> Singleton<ILogger>::s_pSingleton = nullptr;
-std::mutex Singleton<ILogger>::s_mutex;
 
+template <> std::shared_ptr<ILogger> Singleton<ILogger>::s_pSingleton = nullptr;
+
+template <> std::mutex Singleton<ILogger>::s_mutex;
+
+template <>
 std::shared_ptr<ILogger>
 Singleton<ILogger>::Create()
 {
