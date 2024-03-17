@@ -1,6 +1,6 @@
 # Gadgets Framework - Building
 
-# Windows - Visual Studio
+# Visual Studio
 
 ## Requirements
 
@@ -10,35 +10,62 @@
 
 ## Instructions
 
-* Open a PowerShell or Command Prompt shell and run the following:
-    ```
-    git clone https://github.com/craigsacco/gadgets.git
-    cd gadgets
-    mkdir build-msvc
-    cd build-msvc
-    cmake -G "Visual Studio 17 2022" ..
-    ```
-* Open the **Gadgets.sln** file from the **build-msvc** folder
+Open a **Command Prompt** terminal and run the following commands:
 
-# Windows - GCC
+```
+> git clone https://github.com/craigsacco/gadgets.git
+> cd gadgets
+> git submodule init
+> git submodule update --init --recursive
+> mkdir build-msvc
+> cd build-msvc
+> cmake -G "Visual Studio 17 2022" ..
+```
+
+To open the solution file, double-click the **Gadgets.sln** file from the **build-msvc** folder.
+
+# GCC
 
 ## Requirements
 
-* MSYS2 running the UCRT64 shell with the following packages:
-    * mingw-w64-ucrt-x86_64-toolchain
-    * mingw-w64-ucrt-x86_64-cmake
-    * mingw-w64-ucrt-x86_64-make
-    * mingw-w64-ucrt-x86_64-clang
+* GNU Toolchain (gcc, binutils)
+* CMake
+* GNU Make
+* Clang
+
+### Windows
+
+The following additional requirements is needed:
+
+* MSYS2
+
+For Windows, the packages can be installed with the following commands inside of an **MSYS2** session:
+W
+```
+> pacman -Suy
+> pacman -S mingw-w64-ucrt-x86_64-toolchain mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-make mingw-w64-ucrt-x86_64-clang
+```
+
+### Linux
+
+For Ubuntu, the packages can be installed with the following commands in a **bash** session:
+
+```
+> sudo apt update
+> sudo apt install build-essential cmake g++ gcc clang make
+```
 
 ## Instructions
 
-Open a UCRT64 shell from MSYS and run the following:
+Open a **bash** terminal and run the following commands (on Windows, use the UCRT64 shell provided by MSYS):
 
 ```
-git clone https://github.com/craigsacco/gadgets.git
-cd gadgets
-mkdir build-gcc
-cd build-gcc
-cmake -G "Unix Makefiles" ..
-make -j`nproc`
+> git clone https://github.com/craigsacco/gadgets.git
+> cd gadgets
+> git submodule init
+> git submodule update --init --recursive
+> mkdir build-gcc
+> cd build-gcc
+> cmake -G "Unix Makefiles" ..
+> make -j`nproc`
 ```

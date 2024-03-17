@@ -32,5 +32,9 @@ function(add_gadgets_executable)
     add_executable(${__arg_TARGET})
     add_executable(${__arg_ALIAS} ALIAS ${__arg_TARGET})
     set_gadgets_target_options(${__arg_TARGET} ${__arg_ALIAS} ${__arg_IDEFOLDER})
-endfunction()
 
+    # add winsock2 as a link dependency for Windows executables
+    if(CMAKE_SYSTEM_NAME STREQUAL "Windows") 
+        target_link_libraries(${__arg_TARGET} PRIVATE wsock32 ws2_32)
+    endif()
+endfunction()

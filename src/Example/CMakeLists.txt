@@ -1,4 +1,4 @@
-add_gadgets_library(
+add_gadgets_executable(
     TARGET      GadgetsExample
     ALIAS       Gadgets::Example
     IDEFOLDER   "Gadgets/Example"
