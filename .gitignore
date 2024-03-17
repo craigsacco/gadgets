@@ -1,2 +1,8 @@
 # ignore build output folder
 build/
+
+# build temporary and backup files
+*.tmp
+*.temp
+*.bak
+*.orig
