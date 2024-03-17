@@ -1,6 +1,7 @@
-add_gadgets_library(GadgetsDevicesDigitalOutput
-    #[[ALIAS]]      Gadgets::Devices::DigitalOutput
-    #[[IDEFOLDER]]  "Gadgets/Devices"
+add_gadgets_library(
+    TARGET      GadgetsDevicesDigitalOutput
+    ALIAS       Gadgets::Devices::DigitalOutput
+    IDEFOLDER   "Gadgets/Devices"
 )
 
 target_include_directories(GadgetsDevicesDigitalOutput

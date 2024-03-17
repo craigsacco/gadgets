@@ -15,9 +15,11 @@ testTaskQueue()
 
     for ( int i = 0; i < 50; i++ )
     {
-        pTaskQueue->Enqueue( [ i ] {
-            // LOG_INFO("%i\n", i);
-        } );
+        pTaskQueue->Enqueue(
+            [ i ]
+            {
+                // LOG_INFO("%i\n", i);
+            } );
     }
 
     pTaskQueue->Stop();
@@ -68,8 +70,8 @@ testDeviceAndDriverInfrastructure()
 int
 main( int argc, char** argv )
 {
-    (void)argc;
-    (void)argv;
+    ( void )argc;
+    ( void )argv;
 
     Gadgets::Core::LoggerSingleton::Get();
 

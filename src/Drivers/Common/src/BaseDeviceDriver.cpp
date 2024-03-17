@@ -9,11 +9,15 @@ namespace Gadgets
 namespace Drivers
 {
 BaseDeviceDriver::BaseDeviceDriver( const std::string& name, const std::string& type )
-    : m_name( name ), m_type( type ), m_pTaskQueue( nullptr )
+    : m_name( name )
+    , m_type( type )
+    , m_pTaskQueue( nullptr )
 {
 }
 
-BaseDeviceDriver::~BaseDeviceDriver() {}
+BaseDeviceDriver::~BaseDeviceDriver()
+{
+}
 
 std::string
 BaseDeviceDriver::Type() const

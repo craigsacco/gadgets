@@ -1,6 +1,7 @@
-add_gadgets_executable(GadgetsExample
-    #[[ALIAS]]      Gadgets::Example
-    #[[IDEFOLDER]]  "Gadgets/Example"
+add_gadgets_library(
+    TARGET      GadgetsExample
+    ALIAS       Gadgets::Example
+    IDEFOLDER   "Gadgets/Example"
 )
 
 target_include_directories(GadgetsExample

@@ -9,7 +9,12 @@ using namespace ::testing;
 class SemaphoreTests : public Test
 {
 public:
-    SemaphoreTests() : m_semaphore(), m_thread(), m_releaseResult( false ) {}
+    SemaphoreTests()
+        : m_semaphore()
+        , m_thread()
+        , m_releaseResult( false )
+    {
+    }
 
     void
     SetUp() override
@@ -29,10 +34,12 @@ protected:
     void
     CreateThreadForRelease( std::chrono::milliseconds delay_ms )
     {
-        m_thread = std::thread( [ this, delay_ms ] {
-            std::this_thread::sleep_for( delay_ms );
-            m_releaseResult = m_semaphore.Release();
-        } );
+        m_thread = std::thread(
+            [ this, delay_ms ]
+            {
+                std::this_thread::sleep_for( delay_ms );
+                m_releaseResult = m_semaphore.Release();
+            } );
     }
 
     Gadgets::Core::Semaphore m_semaphore;
@@ -58,9 +65,15 @@ TEST_F( SemaphoreTests, WaitTimesOutBeforeRelease )
     ASSERT_TRUE( m_releaseResult );
 }
 
-TEST_F( SemaphoreTests, ReleaseWithoutAcquire ) { ASSERT_FALSE( m_semaphore.Release() ); }
+TEST_F( SemaphoreTests, ReleaseWithoutAcquire )
+{
+    ASSERT_FALSE( m_semaphore.Release() );
+}
 
-TEST_F( SemaphoreTests, WaitWithoutAcquire ) { ASSERT_TRUE( m_semaphore.Wait( std::chrono::seconds( 1 ) ) ); }
+TEST_F( SemaphoreTests, WaitWithoutAcquire )
+{
+    ASSERT_TRUE( m_semaphore.Wait( std::chrono::seconds( 1 ) ) );
+}
 
 TEST_F( SemaphoreTests, WaitAfterAcquireAndRelease )
 {

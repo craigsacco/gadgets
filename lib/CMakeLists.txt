@@ -1,3 +1,7 @@
+# boost needs this to silence some compiler warnings
+add_compile_definitions(_WIN32_WINNT=0x0601)
+
+# include google test and boost folders
 add_subdirectory(googletest)
 add_subdirectory(boost)
 

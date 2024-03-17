@@ -6,9 +6,16 @@ namespace Gadgets
 {
 namespace Core
 {
-Semaphore::Semaphore() : m_mutex(), m_cv(), m_acquired( false ) {}
+Semaphore::Semaphore()
+    : m_mutex()
+    , m_cv()
+    , m_acquired( false )
+{
+}
 
-Semaphore::~Semaphore() {}
+Semaphore::~Semaphore()
+{
+}
 
 std::string
 Semaphore::Type() const

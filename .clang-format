@@ -1,23 +1,55 @@
 ﻿---
-AccessModifierOffset: '-4'
-AlwaysBreakAfterDefinitionReturnType: None
+AccessModifierOffset: "-4"
 AlwaysBreakAfterReturnType: AllDefinitions
-BreakBeforeBraces: Allman
-BreakConstructorInitializers: BeforeColon
-BreakInheritanceList: BeforeColon
-ColumnLimit: '120'
-IndentWidth: '4'
+BreakBeforeBraces: Custom
+BreakConstructorInitializers: BeforeComma
+BreakInheritanceList: BeforeComma
+ColumnLimit: "120"
+IndentWidth: "4"
 Language: Cpp
-MaxEmptyLinesToKeep: '2'
+MaxEmptyLinesToKeep: "2"
 NamespaceIndentation: None
 PointerAlignment: Left
-ReflowComments: 'true'
-SortIncludes: 'true'
-SpacesInContainerLiterals: 'true'
-SpacesInParentheses: 'true'
-SpacesInSquareBrackets: 'true'
+ReflowComments: "true"
+SortIncludes: "true"
+SpacesInContainerLiterals: "true"
+SpacesInSquareBrackets: "true"
 Standard: Cpp11
-TabWidth: '4'
+TabWidth: "4"
 UseTab: Never
+PackConstructorInitializers: Never
+ConstructorInitializerIndentWidth: 4
+SpacesInParens: Custom
+SpacesInParensOptions:
+  InConditionalStatements: true
+  InCStyleCasts: true
+  InEmptyParentheses: false
+  Other: true
+AllowShortBlocksOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: None
+BraceWrapping:
+  AfterControlStatement: Always
+  AfterClass: true
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+  AfterUnion: true
+  SplitEmptyNamespace: false
+  AfterCaseLabel: true
+  AfterObjCDeclaration: true
+  AfterExternBlock: true
+  BeforeElse: true
+  BeforeCatch: true
+  BeforeLambdaBody: true
+BracedInitializerIndentWidth: 4
+BinPackParameters: true
+LineEnding: LF
+KeepEmptyLinesAtEOF: false
+KeepEmptyLinesAtTheStartOfBlocks: false
+AllowShortLambdasOnASingleLine: None
+AllowShortEnumsOnASingleLine: false
+
+# using https://clang-format-configurator.site/
 
 ...

@@ -12,11 +12,16 @@ namespace Gadgets
 namespace Devices
 {
 BaseDevice::BaseDevice( const std::string& name, const std::string& type, IDeviceDriverSPtr pDriver )
-    : m_name( name ), m_type( type ), m_pDriver( pDriver ), m_semaphore()
+    : m_name( name )
+    , m_type( type )
+    , m_pDriver( pDriver )
+    , m_semaphore()
 {
 }
 
-BaseDevice::~BaseDevice() {}
+BaseDevice::~BaseDevice()
+{
+}
 
 std::string
 BaseDevice::Name() const
@@ -29,13 +34,18 @@ BaseDevice::Initialise()
 {
     StartAsyncAction();
 
-    const auto cb = [ this ]( DriverResponse driverResponse ) {
+    const auto cb = [ this ]( DriverResponse driverResponse )
+    {
         auto response = ToDeviceResponse( driverResponse );
         FinaliseAsyncAction( response );
         ResponseThrowOnError( response );
     };
 
-    m_pDriver->GetTaskQueue()->Enqueue( [ this, cb ] { m_pDriver->Initialise( cb ); } );
+    m_pDriver->GetTaskQueue()->Enqueue(
+        [ this, cb ]
+        {
+            m_pDriver->Initialise( cb );
+        } );
 }
 
 void
@@ -43,13 +53,18 @@ BaseDevice::Shutdown()
 {
     StartAsyncAction();
 
-    const auto cb = [ this ]( DriverResponse driverResponse ) {
+    const auto cb = [ this ]( DriverResponse driverResponse )
+    {
         auto response = ToDeviceResponse( driverResponse );
         FinaliseAsyncAction( response );
         ResponseThrowOnError( response );
     };
 
-    m_pDriver->GetTaskQueue()->Enqueue( [ this, cb ] { m_pDriver->Shutdown( cb ); } );
+    m_pDriver->GetTaskQueue()->Enqueue(
+        [ this, cb ]
+        {
+            m_pDriver->Shutdown( cb );
+        } );
 }
 
 void
@@ -91,7 +106,7 @@ BaseDevice::StartAsyncAction()
 void
 BaseDevice::FinaliseAsyncAction( DeviceResponse response )
 {
-    (void)response;
+    ( void )response;
 
     if ( !m_semaphore.Release() )
     {

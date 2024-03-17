@@ -17,9 +17,14 @@ Singleton<ILogger>::Create()
     return std::make_shared<LoggerSingleton::SimpleConsoleLogger>();
 }
 
-LoggerSingleton::SimpleConsoleLogger::SimpleConsoleLogger() : m_mutex() {}
+LoggerSingleton::SimpleConsoleLogger::SimpleConsoleLogger()
+    : m_mutex()
+{
+}
 
-LoggerSingleton::SimpleConsoleLogger::~SimpleConsoleLogger() {}
+LoggerSingleton::SimpleConsoleLogger::~SimpleConsoleLogger()
+{
+}
 
 std::string
 LoggerSingleton::SimpleConsoleLogger::Type() const
@@ -73,7 +78,7 @@ void
 LoggerSingleton::SimpleConsoleLogger::Log( Level level, const std::string& component, const std::string& msg,
                                            const std::string& file, uint32_t line )
 {
-    (void)level;
+    ( void )level;
 
     std::lock_guard<std::mutex> lock( m_mutex );
 

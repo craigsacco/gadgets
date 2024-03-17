@@ -1,6 +1,7 @@
-add_gadgets_library(GadgetsDriversCommon
-    #[[ALIAS]]      Gadgets::Drivers::Common
-    #[[IDEFOLDER]]  "Gadgets/Drivers"
+add_gadgets_library(
+    TARGET      GadgetsDriversCommon
+    ALIAS       Gadgets::Drivers::Common
+    IDEFOLDER   "Gadgets/Drivers"
 )
 
 target_include_directories(GadgetsDriversCommon

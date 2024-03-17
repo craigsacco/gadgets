@@ -1,6 +1,7 @@
-add_gadgets_library(GadgetsDevicesCommon
-    #[[ALIAS]]      Gadgets::Devices::Common
-    #[[IDEFOLDER]]  "Gadgets/Devices"
+add_gadgets_library(
+    TARGET      GadgetsDevicesCommon
+    ALIAS       Gadgets::Devices::Common
+    IDEFOLDER   "Gadgets/Devices"
 )
 
 target_include_directories(GadgetsDevicesCommon

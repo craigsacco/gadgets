@@ -7,11 +7,14 @@ namespace Gadgets
 namespace Drivers
 {
 EmulatedDigitalOutputDriver::EmulatedDigitalOutputDriver( const std::string& name )
-    : BaseDeviceDriver( name, "EmulatedDigitalOutputDriver" ), m_state( false )
+    : BaseDeviceDriver( name, "EmulatedDigitalOutputDriver" )
+    , m_state( false )
 {
 }
 
-EmulatedDigitalOutputDriver::~EmulatedDigitalOutputDriver() {}
+EmulatedDigitalOutputDriver::~EmulatedDigitalOutputDriver()
+{
+}
 
 void
 EmulatedDigitalOutputDriver::Initialise( std::function<void( Devices::DriverResponse )> cb )

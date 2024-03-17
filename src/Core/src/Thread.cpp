@@ -7,9 +7,18 @@ namespace Gadgets
 {
 namespace Core
 {
-Thread::Thread( const std::string& name ) : m_name( name ), m_thread(), m_state( Stopped ), m_mutex() {}
+Thread::Thread( const std::string& name )
+    : m_name( name )
+    , m_thread()
+    , m_state( Stopped )
+    , m_mutex()
+{
+}
 
-Thread::~Thread() { Stop(); }
+Thread::~Thread()
+{
+    Stop();
+}
 
 void
 Thread::Start()
@@ -21,7 +30,11 @@ Thread::Start()
         LOG_DEBUG_INTERNAL( "Starting thread " + m_name );
 
         m_state = Started;
-        m_thread = std::thread( [ this ]() { this->Run(); } );
+        m_thread = std::thread(
+            [ this ]()
+            {
+                this->Run();
+            } );
 
         LOG_DEBUG_INTERNAL( "Started thread " + m_name );
     }

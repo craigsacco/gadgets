@@ -11,7 +11,9 @@ namespace Gadgets
 {
 namespace Core
 {
-class TaskQueue : public Thread, public virtual ITaskQueue
+class TaskQueue
+    : public Thread
+    , public virtual ITaskQueue
 {
 public:
     TaskQueue( const std::string& name );

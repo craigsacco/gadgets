@@ -14,7 +14,9 @@ namespace Gadgets
 {
 namespace Drivers
 {
-class EmulatedDigitalOutputDriver : public BaseDeviceDriver, public virtual Devices::IDigitalOutputDriver
+class EmulatedDigitalOutputDriver
+    : public BaseDeviceDriver
+    , public virtual Devices::IDigitalOutputDriver
 {
 public:
     EmulatedDigitalOutputDriver( const std::string& name );

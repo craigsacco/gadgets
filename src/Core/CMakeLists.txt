@@ -1,6 +1,7 @@
-add_gadgets_library(GadgetsCore
-    #[[ALIAS]]      Gadgets::Core
-    #[[IDEFOLDER]]  "Gadgets/Core"
+add_gadgets_library(
+    TARGET      GadgetsCore
+    ALIAS       Gadgets::Core
+    IDEFOLDER   "Gadgets/Core"
 )
 
 target_include_directories(GadgetsCore

@@ -7,11 +7,15 @@ namespace Gadgets
 namespace Core
 {
 TaskQueue::TaskQueue( const std::string& name )
-    : Thread( name ), m_context(), m_workguard( boost::asio::make_work_guard( m_context ) )
+    : Thread( name )
+    , m_context()
+    , m_workguard( boost::asio::make_work_guard( m_context ) )
 {
 }
 
-TaskQueue::~TaskQueue() {}
+TaskQueue::~TaskQueue()
+{
+}
 
 std::string
 TaskQueue::Type() const

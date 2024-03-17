@@ -9,24 +9,32 @@ namespace Gadgets
 namespace Devices
 {
 DigitalOutputDevice::DigitalOutputDevice( const std::string& name, IDigitalOutputDriverSPtr pDriver )
-    : BaseDevice( name, "DigitalOutput", pDriver ), m_pDriver( pDriver )
+    : BaseDevice( name, "DigitalOutput", pDriver )
+    , m_pDriver( pDriver )
 {
 }
 
-DigitalOutputDevice::~DigitalOutputDevice() {}
+DigitalOutputDevice::~DigitalOutputDevice()
+{
+}
 
 void
 DigitalOutputDevice::On()
 {
     StartAsyncAction();
 
-    const auto cb = [ this ]( DriverResponse driverResponse ) {
+    const auto cb = [ this ]( DriverResponse driverResponse )
+    {
         auto response = ToDeviceResponse( driverResponse );
         FinaliseAsyncAction( response );
         ResponseThrowOnError( response );
     };
 
-    m_pDriver->GetTaskQueue()->Enqueue( [ this, cb ] { m_pDriver->On( cb ); } );
+    m_pDriver->GetTaskQueue()->Enqueue(
+        [ this, cb ]
+        {
+            m_pDriver->On( cb );
+        } );
 }
 
 void
@@ -34,13 +42,18 @@ DigitalOutputDevice::Off()
 {
     StartAsyncAction();
 
-    const auto cb = [ this ]( DriverResponse driverResponse ) {
+    const auto cb = [ this ]( DriverResponse driverResponse )
+    {
         auto response = ToDeviceResponse( driverResponse );
         FinaliseAsyncAction( response );
         ResponseThrowOnError( response );
     };
 
-    m_pDriver->GetTaskQueue()->Enqueue( [ this, cb ] { m_pDriver->Off( cb ); } );
+    m_pDriver->GetTaskQueue()->Enqueue(
+        [ this, cb ]
+        {
+            m_pDriver->Off( cb );
+        } );
 }
 
 void
@@ -48,13 +61,18 @@ DigitalOutputDevice::SetState( bool state )
 {
     StartAsyncAction();
 
-    const auto cb = [ this ]( DriverResponse driverResponse ) {
+    const auto cb = [ this ]( DriverResponse driverResponse )
+    {
         auto response = ToDeviceResponse( driverResponse );
         FinaliseAsyncAction( response );
         ResponseThrowOnError( response );
     };
 
-    m_pDriver->GetTaskQueue()->Enqueue( [ this, state, cb ] { m_pDriver->SetState( state, cb ); } );
+    m_pDriver->GetTaskQueue()->Enqueue(
+        [ this, state, cb ]
+        {
+            m_pDriver->SetState( state, cb );
+        } );
 }
 
 bool
@@ -64,14 +82,19 @@ DigitalOutputDevice::GetState()
 
     StartAsyncAction();
 
-    const auto cb = [ this, &state ]( DriverResponse driverResponse, bool returnState ) {
+    const auto cb = [ this, &state ]( DriverResponse driverResponse, bool returnState )
+    {
         state = returnState;
         auto response = ToDeviceResponse( driverResponse );
         FinaliseAsyncAction( response );
         ResponseThrowOnError( response );
     };
 
-    m_pDriver->GetTaskQueue()->Enqueue( [ this, cb ] { m_pDriver->GetState( cb ); } );
+    m_pDriver->GetTaskQueue()->Enqueue(
+        [ this, cb ]
+        {
+            m_pDriver->GetState( cb );
+        } );
 
     Wait();
     return state;

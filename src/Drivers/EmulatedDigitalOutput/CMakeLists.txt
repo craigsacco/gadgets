@@ -1,6 +1,7 @@
-add_gadgets_library(GadgetsDriversEmulatedDigitalOutput
-    #[[ALIAS]]      Gadgets::Drivers::EmulatedDigitalOutput
-    #[[IDEFOLDER]]  "Gadgets/Drivers"
+add_gadgets_library(
+    TARGET      GadgetsDriversEmulatedDigitalOutput
+    ALIAS       Gadgets::Drivers::EmulatedDigitalOutput
+    IDEFOLDER   "Gadgets/Drivers"
 )
 
 target_include_directories(GadgetsDriversEmulatedDigitalOutput

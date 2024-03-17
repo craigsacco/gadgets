@@ -19,7 +19,9 @@ namespace Devices
 class IDigitalOutputDriver;
 using IDigitalOutputDriverSPtr = std::shared_ptr<IDigitalOutputDriver>;
 
-class DigitalOutputDevice : public BaseDevice, public virtual IDigitalOutputDevice
+class DigitalOutputDevice
+    : public BaseDevice
+    , public virtual IDigitalOutputDevice
 {
 public:
     DigitalOutputDevice( const std::string& name, IDigitalOutputDriverSPtr pDriver );

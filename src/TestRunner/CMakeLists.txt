@@ -1,6 +1,7 @@
-add_gadgets_executable(GadgetsTestRunner
-    #[[ALIAS]]      Gadgets::TestRunner
-    #[[IDEFOLDER]]  "Gadgets/TestRunner"
+add_gadgets_executable(
+    TARGET      GadgetsTestRunner
+    ALIAS       Gadgets::TestRunner
+    IDEFOLDER   "Gadgets/TestRunner"
 )
 
 target_include_directories(GadgetsTestRunner
