@@ -11,7 +11,8 @@ namespace Gadgets
 {
 namespace Devices
 {
-BaseDevice::BaseDevice( const std::string& name, const std::string& type, IDeviceDriverSPtr pDriver )
+BaseDevice::BaseDevice( const std::string& name, const std::string& type,
+                        IDeviceDriverSPtr pDriver )
     : m_name( name )
     , m_type( type )
     , m_pDriver( pDriver )
@@ -119,7 +120,8 @@ BaseDevice::ToDeviceResponse( DriverResponse response ) const
 {
     static const std::map<DriverResponse, DeviceResponse> responseMap = {
         std::make_pair( StandardDriverResponses::DriverOK, StandardDeviceResponses::DeviceOK ),
-        std::make_pair( StandardDriverResponses::DriverFailed, StandardDeviceResponses::DeviceFailed ),
+        std::make_pair( StandardDriverResponses::DriverFailed,
+                        StandardDeviceResponses::DeviceFailed ),
     };
 
     if ( responseMap.find( response ) != responseMap.end() )

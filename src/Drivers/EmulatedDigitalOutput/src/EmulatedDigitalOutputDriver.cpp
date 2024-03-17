@@ -43,7 +43,8 @@ EmulatedDigitalOutputDriver::Off( std::function<void( Devices::DriverResponse )>
 }
 
 void
-EmulatedDigitalOutputDriver::SetState( bool state, std::function<void( Devices::DriverResponse )> cb )
+EmulatedDigitalOutputDriver::SetState( bool state,
+                                       std::function<void( Devices::DriverResponse )> cb )
 {
     m_state = state;
     cb( Devices::StandardDriverResponses::DriverOK );

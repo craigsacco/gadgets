@@ -5,7 +5,7 @@
 #include <Gadgets/Core/CommonMacros.hpp>
 #include <Gadgets/Core/LoggerSingleton.hpp>
 
-#define LOG_IMPL( level, component, msg )                                                                              \
+#define LOG_IMPL( level, component, msg )                                                          \
     Gadgets::Core::LoggerSingleton::Get()->Log( level, component, msg, __FILE__, __LINE__ )
 
 #define LOG_TRACE( msg ) LOG_IMPL( Gadgets::Core::ILogger::Trace, "", msg )

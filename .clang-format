@@ -4,7 +4,7 @@ AlwaysBreakAfterReturnType: AllDefinitions
 BreakBeforeBraces: Custom
 BreakConstructorInitializers: BeforeComma
 BreakInheritanceList: BeforeComma
-ColumnLimit: "120"
+ColumnLimit: "100"
 IndentWidth: "4"
 Language: Cpp
 MaxEmptyLinesToKeep: "2"

@@ -34,6 +34,7 @@ function(add_gadgets_executable)
     set_gadgets_target_options(${__arg_TARGET} ${__arg_ALIAS} ${__arg_IDEFOLDER})
 
     # add winsock2 as a link dependency for Windows executables
+    # (Boost::asio requires this)
     if(CMAKE_SYSTEM_NAME STREQUAL "Windows") 
         target_link_libraries(${__arg_TARGET} PRIVATE wsock32 ws2_32)
     endif()

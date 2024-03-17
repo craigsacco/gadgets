@@ -8,7 +8,8 @@ namespace Gadgets
 {
 namespace Devices
 {
-DigitalOutputDevice::DigitalOutputDevice( const std::string& name, IDigitalOutputDriverSPtr pDriver )
+DigitalOutputDevice::DigitalOutputDevice( const std::string& name,
+                                          IDigitalOutputDriverSPtr pDriver )
     : BaseDevice( name, "DigitalOutput", pDriver )
     , m_pDriver( pDriver )
 {

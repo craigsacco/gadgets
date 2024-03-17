@@ -36,7 +36,8 @@ testDeviceAndDriverInfrastructure()
     pTaskQueue->Start();
     printf( "Started\n" );
 
-    auto pDriver = std::make_shared<Gadgets::Drivers::EmulatedDigitalOutputDriver>( "EmulatedOutput" );
+    auto pDriver =
+        std::make_shared<Gadgets::Drivers::EmulatedDigitalOutputDriver>( "EmulatedOutput" );
     pDriver->SetTaskQueue( pTaskQueue );
     auto pDevice = std::make_shared<Gadgets::Devices::DigitalOutputDevice>( "Output", pDriver );
 

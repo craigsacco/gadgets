@@ -8,6 +8,8 @@
 #include <memory>
 
 #if defined( _MSC_VER )
+// methods inherited by dominance are fine - inhibit this warning (cleared at end
+// of file)
 #pragma warning( push )
 #pragma warning( disable : 4250 )
 #endif

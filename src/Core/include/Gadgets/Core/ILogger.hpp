@@ -14,18 +14,18 @@ namespace Core
 class ILogger : public virtual IObject
 {
 public:
-    virtual void LogTrace( const std::string& component, const std::string& msg, const std::string& file,
-                           uint32_t line ) = 0;
-    virtual void LogDebug( const std::string& component, const std::string& msg, const std::string& file,
-                           uint32_t line ) = 0;
-    virtual void LogInfo( const std::string& component, const std::string& msg, const std::string& file,
-                          uint32_t line ) = 0;
-    virtual void LogWarning( const std::string& component, const std::string& msg, const std::string& file,
-                             uint32_t line ) = 0;
-    virtual void LogError( const std::string& component, const std::string& msg, const std::string& file,
-                           uint32_t line ) = 0;
-    virtual void LogFatal( const std::string& component, const std::string& msg, const std::string& file,
-                           uint32_t line ) = 0;
+    virtual void LogTrace( const std::string& component, const std::string& msg,
+                           const std::string& file, uint32_t line ) = 0;
+    virtual void LogDebug( const std::string& component, const std::string& msg,
+                           const std::string& file, uint32_t line ) = 0;
+    virtual void LogInfo( const std::string& component, const std::string& msg,
+                          const std::string& file, uint32_t line ) = 0;
+    virtual void LogWarning( const std::string& component, const std::string& msg,
+                             const std::string& file, uint32_t line ) = 0;
+    virtual void LogError( const std::string& component, const std::string& msg,
+                           const std::string& file, uint32_t line ) = 0;
+    virtual void LogFatal( const std::string& component, const std::string& msg,
+                           const std::string& file, uint32_t line ) = 0;
 
     enum Level
     {
@@ -36,8 +36,8 @@ public:
         Error,
         Fatal,
     };
-    virtual void Log( Level level, const std::string& component, const std::string& msg, const std::string& file,
-                      uint32_t line ) = 0;
+    virtual void Log( Level level, const std::string& component, const std::string& msg,
+                      const std::string& file, uint32_t line ) = 0;
 
 protected:
     ILogger() = default;

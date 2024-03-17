@@ -12,6 +12,7 @@ namespace Core
 template <> std::shared_ptr<ILogger> Singleton<ILogger>::s_pSingleton = nullptr;
 
 #if !defined( _MSC_VER )
+// fails to link with undefined reference - do not add declaration for MSVC
 template <>
 #endif
 std::mutex Singleton<ILogger>::s_mutex{};
@@ -39,15 +40,17 @@ LoggerSingleton::SimpleConsoleLogger::Type() const
 }
 
 void
-LoggerSingleton::SimpleConsoleLogger::LogTrace( const std::string& component, const std::string& msg,
-                                                const std::string& file, uint32_t line )
+LoggerSingleton::SimpleConsoleLogger::LogTrace( const std::string& component,
+                                                const std::string& msg, const std::string& file,
+                                                uint32_t line )
 {
     Log( Level::Trace, component, msg, file, line );
 }
 
 void
-LoggerSingleton::SimpleConsoleLogger::LogDebug( const std::string& component, const std::string& msg,
-                                                const std::string& file, uint32_t line )
+LoggerSingleton::SimpleConsoleLogger::LogDebug( const std::string& component,
+                                                const std::string& msg, const std::string& file,
+                                                uint32_t line )
 {
     Log( Level::Debug, component, msg, file, line );
 }
@@ -60,29 +63,33 @@ LoggerSingleton::SimpleConsoleLogger::LogInfo( const std::string& component, con
 }
 
 void
-LoggerSingleton::SimpleConsoleLogger::LogWarning( const std::string& component, const std::string& msg,
-                                                  const std::string& file, uint32_t line )
+LoggerSingleton::SimpleConsoleLogger::LogWarning( const std::string& component,
+                                                  const std::string& msg, const std::string& file,
+                                                  uint32_t line )
 {
     Log( Level::Warning, component, msg, file, line );
 }
 
 void
-LoggerSingleton::SimpleConsoleLogger::LogError( const std::string& component, const std::string& msg,
-                                                const std::string& file, uint32_t line )
+LoggerSingleton::SimpleConsoleLogger::LogError( const std::string& component,
+                                                const std::string& msg, const std::string& file,
+                                                uint32_t line )
 {
     Log( Level::Error, component, msg, file, line );
 }
 
 void
-LoggerSingleton::SimpleConsoleLogger::LogFatal( const std::string& component, const std::string& msg,
-                                                const std::string& file, uint32_t line )
+LoggerSingleton::SimpleConsoleLogger::LogFatal( const std::string& component,
+                                                const std::string& msg, const std::string& file,
+                                                uint32_t line )
 {
     Log( Level::Fatal, component, msg, file, line );
 }
 
 void
-LoggerSingleton::SimpleConsoleLogger::Log( Level level, const std::string& component, const std::string& msg,
-                                           const std::string& file, uint32_t line )
+LoggerSingleton::SimpleConsoleLogger::Log( Level level, const std::string& component,
+                                           const std::string& msg, const std::string& file,
+                                           uint32_t line )
 {
     ( void )level;
 
