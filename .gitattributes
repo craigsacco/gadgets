@@ -1,0 +1,2 @@
+# by default, all files are text files and are normalised to LF line endings
+* text=auto eol=lf
