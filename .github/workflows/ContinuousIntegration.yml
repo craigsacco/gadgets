@@ -1,0 +1,23 @@
+name: Continuous Integration
+
+on:
+  push:
+      branches: [ master ]
+  pull_request:
+      branches: [ master ]
+
+jobs:
+  build-and-test:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+      - name: Make build folder
+          run: mkdir build
+      - name: Change to build folder
+          run: cd build
+      - name: Create Makefiles
+          run: cmake ..
+      - name: Build Gadgets
+          run: make -j`nproc`
+      - name: Run Tests
+          run: src/TestRunner/GadgetsTestRunner
