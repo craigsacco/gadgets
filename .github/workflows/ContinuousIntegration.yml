@@ -12,12 +12,12 @@ jobs:
       steps:
       - uses: actions/checkout@v2
       - name: Make build folder
-          run: mkdir build
+        run: mkdir build
       - name: Change to build folder
-          run: cd build
+        run: cd build
       - name: Create Makefiles
-          run: cmake ..
+        run: cmake ..
       - name: Build Gadgets
-          run: make -j`nproc`
+        run: make -j`nproc`
       - name: Run Tests
-          run: src/TestRunner/GadgetsTestRunner
+        run: src/TestRunner/GadgetsTestRunner
