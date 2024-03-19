@@ -39,14 +39,53 @@ using ITaskQueueSPtr = std::shared_ptr<ITaskQueue>;
 
 namespace Devices
 {
+
+/**
+ * @brief   Interface driver class for any type of device.
+ */
 class IDeviceDriver : public virtual Core::IObject
 {
 public:
+    /**
+     * @brief       Initialises the driver.
+     *
+     * @gadgets_driver_async
+     *
+     * @param[in]   cb  The callback function to run at the completion of the underlying action
+     * containing the driver response.
+     */
     virtual void Initialise( std::function<void( DriverResponse )> cb ) = 0;
+
+    /**
+     * @brief       Shutdown the driver.
+     *
+     * @gadgets_driver_async
+     *
+     * @param[in]   cb  The callback function to run at the completion of the underlying action
+     * containing the driver response.
+     */
     virtual void Shutdown( std::function<void( DriverResponse )> cb ) = 0;
 
+    /**
+     * @brief       Gets the name of the driver.
+     *
+     * @return      The name of the driver.
+     */
     virtual std::string Name() const = 0;
+
+    /**
+     * @brief       Sets the task queue instance to use for synchronising internal operations within
+     * the driver.
+     *
+     * @param[in]   pTaskQueue  The task queue instance to assign to the driver.
+     */
     virtual void SetTaskQueue( Core::ITaskQueueSPtr pTaskQueue ) = 0;
+
+    /**
+     * @brief       Gets the task queue instance from the driver.
+     *
+     * @return      The task queue instance.
+     */
     virtual Core::ITaskQueueSPtr GetTaskQueue() const = 0;
 
 protected:

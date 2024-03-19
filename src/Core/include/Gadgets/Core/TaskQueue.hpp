@@ -39,15 +39,24 @@ public:
     TaskQueue( const std::string& name );
     virtual ~TaskQueue();
 
-    // overrides from IObject
+#pragma region "Overrides from IObject"
+
     std::string Type() const final;
 
-    // overrides from Thread
+#pragma endregion
+
+#pragma region "Overrides from Thread"
+
     void RunInternal() override final;
     void NotifyStopping() override final;
 
-    // overrides from ITaskQueue
+#pragma endregion
+
+#pragma region "Overrides from ITaskQueue"
+
     void Enqueue( std::function<void()> task ) override final;
+
+#pragma endregion
 
 private:
     boost::asio::io_context m_context;

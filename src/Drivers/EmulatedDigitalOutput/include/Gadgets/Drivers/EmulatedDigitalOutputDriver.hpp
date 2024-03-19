@@ -36,23 +36,44 @@ namespace Gadgets
 {
 namespace Drivers
 {
+
+/**
+ * @brief   Implementation of an emumated digital output driver.
+ */
 class EmulatedDigitalOutputDriver
     : public BaseDeviceDriver
     , public virtual Devices::IDigitalOutputDriver
 {
 public:
+    /**
+     * @brief       Constructor for an emulated digital output driver.
+     *
+     * @param[in]   name    The name of the driver.
+     */
     EmulatedDigitalOutputDriver( const std::string& name );
+
+    /**
+     * @brief       Virtual destructor.
+     */
     virtual ~EmulatedDigitalOutputDriver();
 
-    // overrides from IDeviceDriver
+#pragma region "Overrides from IDeviceDriver"
+    //! @copydoc Gadgets::Devices::IDeviceDriver::Initialise
     void Initialise( std::function<void( Devices::DriverResponse )> cb ) override final;
+    //! @copydoc Gadgets::Devices::IDeviceDriver::Shutdown
     void Shutdown( std::function<void( Devices::DriverResponse )> cb ) override final;
+#pragma endregion
 
-    // overrides from IDigitalOutputDriver
+#pragma region "Overrides from IDigitalOutputDriver"
+    //! @copydoc Gadgets::Devices::IDigitalOutputDriver::On
     void On( std::function<void( Devices::DriverResponse )> cb ) override final;
+    //! @copydoc Gadgets::Devices::IDigitalOutputDriver::Off
     void Off( std::function<void( Devices::DriverResponse )> cb ) override final;
+    //! @copydoc Gadgets::Devices::IDigitalOutputDriver::SetState
     void SetState( bool state, std::function<void( Devices::DriverResponse )> cb ) override final;
+    //! @copydoc Gadgets::Devices::IDigitalOutputDriver::GetState
     void GetState( std::function<void( Devices::DriverResponse, bool )> cb ) override final;
+#pragma endregion
 
 private:
     bool m_state;

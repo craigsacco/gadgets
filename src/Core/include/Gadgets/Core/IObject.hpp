@@ -28,9 +28,18 @@ namespace Gadgets
 {
 namespace Core
 {
+
+/**
+ * @brief   Interface class for any Gadgets Framework instance.
+ */
 class IObject
 {
 public:
+    /**
+     * @brief       Gets the string interpretation of the the type of instance.
+     *
+     * @return      The type of instance as a string.
+     */
     virtual std::string Type() const = 0;
 
 protected:

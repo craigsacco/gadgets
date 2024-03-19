@@ -32,21 +32,37 @@ namespace Gadgets
 {
 namespace Drivers
 {
+
+/**
+ * @brief   Basic implementation of a device driver.
+ */
 class BaseDeviceDriver : public virtual Devices::IDeviceDriver
 {
 public:
+    /**
+     * @brief       Constructor for this device driver.
+     *
+     * @param[in]   name    The name of the driver.
+     * @param[in]   type    The type of driver as a string.
+     */
     BaseDeviceDriver( const std::string& name, const std::string& type );
+
+    /**
+     * @brief       Virtual destructor.
+     */
     virtual ~BaseDeviceDriver();
 
-    // overrides from IObject
+#pragma region "Overrides from IObject"
     std::string Type() const override final;
+#pragma endregion
 
-    // overrides from IDeviceDriver
+#pragma region "Overrides from IDeviceDriver"
     std::string Name() const override final;
     void SetTaskQueue( Core::ITaskQueueSPtr pTaskQueue ) override final;
     Core::ITaskQueueSPtr GetTaskQueue() const override final;
+#pragma endregion
 
-protected:
+private:
     const std::string m_name;
     const std::string m_type;
     Core::ITaskQueueSPtr m_pTaskQueue;

@@ -41,24 +41,39 @@ namespace Devices
 class IDigitalOutputDriver;
 using IDigitalOutputDriverSPtr = std::shared_ptr<IDigitalOutputDriver>;
 
+/**
+ * @brief   Implementation of a digital output device.
+ */
 class DigitalOutputDevice
     : public BaseDevice
     , public virtual IDigitalOutputDevice
 {
 public:
+    /**
+     * @brief       Constructor for an digital output device.
+     *
+     * @param[in]   name    The name of the device.
+     * @param[in]   pDriver The driver instance assigned to the device.
+     */
     DigitalOutputDevice( const std::string& name, IDigitalOutputDriverSPtr pDriver );
+
+    /**
+     * @brief       Virtual destructor.
+     */
     virtual ~DigitalOutputDevice();
 
-    // overrides from DigitalOutputDevice
+#pragma region "Overrides from DigitalOutputDevice"
     void On() override final;
     void Off() override final;
     void SetState( bool state ) override final;
     bool GetState() override final;
+#pragma endregion
 
 protected:
-    // overrides from BaseDevice
+#pragma region "Overrides from BaseDevice"
     DeviceResponse ToDeviceResponse( DriverResponse response ) const override final;
     void ResponseThrowOnError( DeviceResponse response ) const override final;
+#pragma endregion
 
 private:
     IDigitalOutputDriverSPtr m_pDriver;

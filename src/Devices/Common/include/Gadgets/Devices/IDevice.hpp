@@ -32,14 +32,52 @@ namespace Gadgets
 {
 namespace Devices
 {
+
+/**
+ * @brief   Interface device class for any type of device.
+ */
 class IDevice : public virtual Core::IObject
 {
 public:
+    /**
+     * @brief       Initialises the device.
+     *
+     * @gadgets_device_non_blocking
+     *
+     * @throws      Gadgets::Devices::DeviceException
+     */
     virtual void Initialise() = 0;
+
+    /**
+     * @brief       Shutdown the device.
+     *
+     * @gadgets_device_non_blocking
+     *
+     * @throws      Gadgets::Devices::DeviceException
+     */
     virtual void Shutdown() = 0;
+
+    /**
+     * @brief       Waits for the current executing action to complete, using the default device
+     * timeout period.
+     *
+     * @throws      Gadgets::Devices::DeviceException
+     */
     virtual void Wait() = 0;
+
+    /**
+     * @brief       Waits for the current executing action to complete, using the user-provided
+     * timeout period.
+     *
+     * @throws      Gadgets::Devices::DeviceException
+     */
     virtual void Wait( std::chrono::milliseconds timeout_ms ) = 0;
 
+    /**
+     * @brief       Gets the name of the device.
+     *
+     * @return      The name of the device.
+     */
     virtual std::string Name() const = 0;
 
 protected:

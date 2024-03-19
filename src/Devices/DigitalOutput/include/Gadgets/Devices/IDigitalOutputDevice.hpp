@@ -31,12 +31,47 @@ namespace Gadgets
 {
 namespace Devices
 {
+
+/**
+ * @brief   Interface device class for a digital output.
+ */
 class IDigitalOutputDevice : public virtual IDevice
 {
 public:
+    /**
+     * @brief       Turns the digital output on.
+     *
+     * @gadgets_device_non_blocking
+     *
+     * @throws      Gadgets::Devices::DeviceException
+     */
     virtual void On() = 0;
+
+    /**
+     * @brief       Turns the digital output off.
+     *
+     * @gadgets_device_non_blocking
+     *
+     * @throws      Gadgets::Devices::DeviceException
+     */
     virtual void Off() = 0;
+
+    /**
+     * @brief       Turns the digital output to the desired state.
+     *
+     * @gadgets_device_non_blocking
+     *
+     * @param[in]   state   The state of the output.
+     */
     virtual void SetState( bool state ) = 0;
+
+    /**
+     * @brief       Gets the current state of the digital output.
+     *
+     * @gadgets_device_blocking
+     *
+     * @return      The current state of the output.
+     */
     virtual bool GetState() = 0;
 
 protected:

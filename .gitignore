@@ -1,5 +1,6 @@
-# ignore build output folders
+# ignore build and documentation output folders
 build*/
+docs/doxygen/
 
 # build temporary and backup files
 *.tmp

@@ -38,8 +38,11 @@ public:
     Semaphore();
     virtual ~Semaphore();
 
-    // overrides from IObject
+#pragma region "Overrides from IObject"
+
     std::string Type() const final;
+
+#pragma endregion
 
     bool Acquire();
     bool Release();

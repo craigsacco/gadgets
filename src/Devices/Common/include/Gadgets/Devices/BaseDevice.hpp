@@ -35,28 +35,78 @@ namespace Devices
 class IDeviceDriver;
 using IDeviceDriverSPtr = std::shared_ptr<IDeviceDriver>;
 
+/**
+ * @brief   Basic implementation of a device.
+ */
 class BaseDevice : public virtual IDevice
 {
 public:
+    /**
+     * @brief       Constructor for this device.
+     *
+     * @param[in]   name    The name of the driver.
+     * @param[in]   type    The type of device as a string.
+     * @param[in]   pDriver The driver instance assigned to the device.
+     */
     BaseDevice( const std::string& name, const std::string& type, IDeviceDriverSPtr pDriver );
+
+    /**
+     * @brief       Virtual destructor.
+     */
     virtual ~BaseDevice();
 
-    // overrides from IObject
-    std::string Name() const override final;
+#pragma region "Overrides from IObject"
+    std::string Type() const override final;
+#pragma endregion
 
-    // overrides from IDevice
+#pragma region "Overrides from IDevice"
     void Initialise() override final;
     void Shutdown() override final;
     void Wait() override final;
     void Wait( std::chrono::milliseconds timeout_ms ) override final;
-    std::string Type() const override final;
+    std::string Name() const override final;
+#pragma endregion
 
+    /**
+     * @brief       Gets the default timeout period for any action that needs to await using the
+     * Wait() method.
+     *
+     * @return      The default timeout period.
+     */
     std::chrono::milliseconds DefaultTimeout() const;
 
 protected:
+    /**
+     * @brief       Internally starts the asynchronous operation and prevents any other operation
+     * from occurring on this device.
+     *
+     * @note        A call to FinaliseAsyncAction(...) will complete the current operation in
+     * progress.
+     */
     void StartAsyncAction();
+
+    /**
+     * @brief       Finalises the current operation and allows new operations to occur on this
+     * device.
+     *
+     * @param[in]   response    The response code of the operation that just completed.
+     */
     void FinaliseAsyncAction( DeviceResponse response );
+
+    /**
+     * @brief       Converts the driver response code to a device response code.
+     *
+     * @param[in]   response    The driver response code to convert.
+     * @return      The device response code.
+     */
     virtual DeviceResponse ToDeviceResponse( DriverResponse response ) const;
+
+    /**
+     * @brief       Throws a specific exception on specific device responses.
+     *
+     * @param[in]   response    The device response code to use when throwing the appropriate
+     * exception.
+     */
     virtual void ResponseThrowOnError( DeviceResponse response ) const;
 
 private:

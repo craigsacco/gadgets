@@ -28,12 +28,52 @@ namespace Gadgets
 {
 namespace Devices
 {
+
+/**
+ * @brief   Interface driver class for a digital output.
+ */
 class IDigitalOutputDriver : public virtual IDeviceDriver
 {
 public:
+    /**
+     * @brief       Turns the digital output on.
+     *
+     * @gadgets_driver_async
+     *
+     * @param[in]   cb  The callback function to run at the completion of the underlying action
+     * containing the driver response.
+     */
     virtual void On( std::function<void( DriverResponse )> cb ) = 0;
+
+    /**
+     * @brief       Turns the digital output off.
+     *
+     * @gadgets_driver_async
+     *
+     * @param[in]   cb  The callback function to run at the completion of the underlying action
+     * containing the driver response.
+     */
     virtual void Off( std::function<void( DriverResponse )> cb ) = 0;
+
+    /**
+     * @brief       Turns the digital output to the desired state.
+     *
+     * @gadgets_driver_async
+     *
+     * @param[in]   state   The new state of the output.
+     * @param[in]   cb      The callback function to run at the completion of the underlying action
+     * containing the driver response.
+     */
     virtual void SetState( bool state, std::function<void( DriverResponse )> cb ) = 0;
+
+    /**
+     * @brief       Gets the current state of the digital output.
+     *
+     * @gadgets_driver_async
+     *
+     * @param[in]   cb      The callback function to run at the completion of the underlying action
+     * containing the driver response and output state.
+     */
     virtual void GetState( std::function<void( DriverResponse, bool )> cb ) = 0;
 
 protected:
