@@ -37,7 +37,7 @@ testTaskQueue()
 
     for ( int i = 0; i < 50; i++ )
     {
-        pTaskQueue->Enqueue(
+        pTaskQueue->BeginInvoke(
             [ i ]
             {
                 // LOG_INFO("%i\n", i);

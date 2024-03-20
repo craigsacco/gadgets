@@ -31,11 +31,26 @@ namespace Gadgets
 {
 namespace Core
 {
+
+/**
+ * @brief   A template for a singleton instance.
+ */
 template <typename TInterface> class Singleton
 {
 public:
+    /**
+     * @brief   Type definition of a shared pointer containing the single instance.
+     */
     using TInterfaceSPtr = std::shared_ptr<TInterface>;
 
+    /**
+     * @brief   Gets the current singleton instance.
+     *
+     * @note    If the singleton instance is yet to be created, the Create() method is called
+     *          beforehand.
+     *
+     * @return  A shared pointer to the singleton instance.
+     */
     static TInterfaceSPtr
     Get()
     {
@@ -49,8 +64,18 @@ public:
         return s_pSingleton;
     }
 
+    /**
+     * @brief   Creates the new singleton instance.
+     *
+     * @return  A shared pointer to the new singleton instance.
+     */
     static TInterfaceSPtr Create();
 
+    /**
+     * @brief       Registers an externally created instance into the singleton container.
+     *
+     * @param[in]   pInstance   The instance to register into the singleton container.
+     */
     static void
     Register( TInterfaceSPtr pInstance )
     {
@@ -61,6 +86,9 @@ public:
         s_pSingleton = pInstance;
     }
 
+    /**
+     * @brief   Destroy the singleton instance (if it exists).
+     */
     static void
     Destroy()
     {

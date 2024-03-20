@@ -23,6 +23,7 @@
 #pragma once
 
 #include <Gadgets/Core/ITaskQueue.hpp>
+#include <Gadgets/Core/Semaphore.hpp>
 #include <Gadgets/Core/Thread.hpp>
 
 #include <boost/asio.hpp>
@@ -31,36 +32,45 @@ namespace Gadgets
 {
 namespace Core
 {
+
+/**
+ * @brief   Implementation of a task queue.
+ */
 class TaskQueue
     : public Thread
     , public virtual ITaskQueue
 {
 public:
+    /**
+     * @brief       Constructor for a task queue.
+     *
+     * @param[in]   name    The name of the task queue.
+     */
     TaskQueue( const std::string& name );
+
+    /**
+     * @brief       Virtual destructor.
+     */
     virtual ~TaskQueue();
 
 #pragma region "Overrides from IObject"
-
     std::string Type() const final;
-
 #pragma endregion
 
 #pragma region "Overrides from Thread"
-
-    void RunInternal() override final;
+    void Run() override final;
     void NotifyStopping() override final;
-
 #pragma endregion
 
 #pragma region "Overrides from ITaskQueue"
-
-    void Enqueue( std::function<void()> task ) override final;
-
+    void BeginInvoke( std::function<void()> task ) override final;
+    void Invoke( std::function<void()> task, std::chrono::milliseconds timeout_ms ) override final;
 #pragma endregion
 
 private:
     boost::asio::io_context m_context;
     boost::asio::executor_work_guard<boost::asio::io_context::executor_type> m_workguard;
+    Semaphore m_blockingSemaphore;
 };
 } // namespace Core
 } // namespace Gadgets

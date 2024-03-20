@@ -44,6 +44,7 @@ target_sources(GadgetsCore
             include/Gadgets/Core/ILogger.hpp
             include/Gadgets/Core/IObject.hpp
             include/Gadgets/Core/ITaskQueue.hpp
+            include/Gadgets/Core/IThread.hpp
             include/Gadgets/Core/LoggerMacros.hpp
             include/Gadgets/Core/LoggerSingleton.hpp
             include/Gadgets/Core/Semaphore.hpp

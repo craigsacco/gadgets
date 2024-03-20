@@ -69,6 +69,8 @@ public:
      * @brief       Waits for the current executing action to complete, using the user-provided
      * timeout period.
      *
+     * @param[in]   timeout_ms  The maximum amount of time to wait before a timeout occurs.
+     *
      * @throws      Gadgets::Devices::DeviceException
      */
     virtual void Wait( std::chrono::milliseconds timeout_ms ) = 0;

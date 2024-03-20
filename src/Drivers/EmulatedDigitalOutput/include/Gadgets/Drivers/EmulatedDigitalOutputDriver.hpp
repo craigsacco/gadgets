@@ -38,7 +38,7 @@ namespace Drivers
 {
 
 /**
- * @brief   Implementation of an emumated digital output driver.
+ * @brief   Implementation of an emulated digital output driver.
  */
 class EmulatedDigitalOutputDriver
     : public BaseDeviceDriver

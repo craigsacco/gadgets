@@ -38,6 +38,7 @@ namespace Gadgets
 {
 namespace Devices
 {
+// Forward declarations
 class IDigitalOutputDriver;
 using IDigitalOutputDriverSPtr = std::shared_ptr<IDigitalOutputDriver>;
 

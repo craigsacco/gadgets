@@ -53,7 +53,9 @@ Thread::Start()
         m_thread = std::thread(
             [ this ]()
             {
-                this->Run();
+                // run the thread - on exit, change state
+                Run();
+                m_state = Stopped;
             } );
 
         LOG_DEBUG_INTERNAL( "Started thread " + m_name );
@@ -76,13 +78,6 @@ Thread::Stop()
 
         LOG_DEBUG_INTERNAL( "Stopped thread " + m_name );
     }
-}
-
-void
-Thread::Run()
-{
-    RunInternal();
-    m_state = Stopped;
 }
 
 void

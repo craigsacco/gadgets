@@ -22,16 +22,41 @@
 
 #pragma once
 
+#include <chrono>
 #include <functional>
 
 namespace Gadgets
 {
 namespace Core
 {
+
+/**
+ * @brief   Interface for a type of task queue.
+ */
 class ITaskQueue
 {
 public:
-    virtual void Enqueue( std::function<void()> task ) = 0;
+    /**
+     * @brief       Dispatches a task in the task queue and returns immediately.
+     *
+     * @details     If the task queue is empty, the task will be executed within the context of the
+     * task queue thread. If the task queue is not empty, the task will be queued until it reaches
+     * the front of the queue, where it will be executed.
+     *
+     * @param[in]   task    The task to dispatch into the queue.
+     */
+    virtual void BeginInvoke( std::function<void()> task ) = 0;
+
+    /**
+     * @brief       Dispatches a task in the task queue and blocks until it is executed.
+     *
+     * @details     The same rules would apply as for the BeginInvoke() function, except it will
+     * block the current thread until the task reaches the front of the queue.
+     *
+     * @param[in]   task        The task to dispatch into the queue.
+     * @param[in]   timeout_ms  The maximum timeout to wait before an exception is thrown.
+     */
+    virtual void Invoke( std::function<void()> task, std::chrono::milliseconds timeout_ms ) = 0;
 
 protected:
     ITaskQueue() = default;

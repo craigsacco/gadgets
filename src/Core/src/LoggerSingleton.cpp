@@ -31,12 +31,9 @@ namespace Core
 
 template <> std::shared_ptr<ILogger> Singleton<ILogger>::s_pSingleton = nullptr;
 
-#if !defined( _MSC_VER )
-// fails to link with undefined reference - do not add declaration for MSVC
-template <>
-#endif
-std::mutex Singleton<ILogger>::s_mutex{};
+template <> std::mutex Singleton<ILogger>::s_mutex{};
 
+//! @copydoc Gadgets::Core::Singleton<ILogger>::Create
 template <>
 std::shared_ptr<ILogger>
 Singleton<ILogger>::Create()

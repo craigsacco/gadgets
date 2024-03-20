@@ -30,8 +30,9 @@ function(set_gadgets_target_options __target__ __alias__ __idefolder___)
         )
     elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_compile_options(${__target__}
-            PRIVATE -Wall       # enable all level 4 warnings
-                    -Werror     # warnings as errors
+            PRIVATE -Wall                   # enable all warnings
+                    -Werror                 # warnings as errors
+                    -Wno-unknown-pragmas    # disable warnings regarding unknown pragmas (fixed in GCC 13.x)
         )
     else()
         message(FATAL_ERROR "Compiler not supported")

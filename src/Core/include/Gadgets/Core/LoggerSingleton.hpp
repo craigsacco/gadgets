@@ -41,13 +41,10 @@ public:
         virtual ~SimpleConsoleLogger();
 
 #pragma region "Overrides from IObject"
-
         std::string Type() const override final;
-
 #pragma endregion
 
 #pragma region "Overrides from ILogger"
-
         void LogTrace( const std::string& component, const std::string& msg,
                        const std::string& file, uint32_t line ) override final;
         void LogDebug( const std::string& component, const std::string& msg,
@@ -62,14 +59,11 @@ public:
                        const std::string& file, uint32_t line ) override final;
         void Log( Level level, const std::string& component, const std::string& msg,
                   const std::string& file, uint32_t line ) override final;
-
 #pragma endregion
 
     private:
         std::mutex m_mutex;
     };
-
-    static std::shared_ptr<ILogger> Create();
 
 private:
     LoggerSingleton() = delete;

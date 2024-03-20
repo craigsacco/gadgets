@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <Gadgets/Core/IObject.hpp>
+#include <Gadgets/Core/IThread.hpp>
 
 #include <mutex>
 #include <thread>
@@ -31,27 +31,65 @@ namespace Gadgets
 {
 namespace Core
 {
-class Thread : public virtual IObject
+
+/**
+ * @brief   Implementation of a thread instance.
+ */
+class Thread : public virtual IThread
 {
 public:
+    /**
+     * @brief       Constructor for a thread.
+     *
+     * @param[in]   name    The name of the thread.
+     */
     Thread( const std::string& name );
+
+    /**
+     * @brief       Virtual destructor.
+     */
     virtual ~Thread();
 
-    void Start();
-    void Stop();
-    void Run();
-    std::string Name() const;
-
-    virtual void RunInternal() = 0;
-    virtual void NotifyStopping();
+#pragma region "Overrides from IThread"
+    void Start() override final;
+    void Stop() override final;
+    std::string Name() const override final;
+#pragma endregion
 
 protected:
+    /**
+     * @brief       The thread function being executed.
+     */
+    virtual void Run() = 0;
+
+    /**
+     * @brief       Notification function to run when a stop request is issued.
+     *
+     * @note        This is not run withing the same context as the thread - any interactions
+     *              between NotifyStopping() and Run() will need to be synchronised.
+     */
+    virtual void NotifyStopping();
+
+    /**
+     * @brief   Thread state.
+     */
     enum State
     {
+        //! @brief  Thread is stopped.
         Stopped,
+
+        //! @brief  Thread is started.
         Started,
+
+        //! @brief  Thread is stopping.
         Stopping,
     };
+
+    /**
+     * @brief       Indicates within the thread loop that the thread should be stopped.
+     *
+     * @return      True if a stop request is issued and the thread has not terminated.
+     */
     bool IsStopping() const;
 
 private:

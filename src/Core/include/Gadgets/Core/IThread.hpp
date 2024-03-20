@@ -20,73 +20,42 @@
  * SOFTWARE.
  */
 
-#include <Gadgets/Core/TaskQueue.hpp>
+#pragma once
+
+#include <Gadgets/Core/IObject.hpp>
 
 namespace Gadgets
 {
 namespace Core
 {
-TaskQueue::TaskQueue( const std::string& name )
-    : Thread( name )
-    , m_context()
-    , m_workguard( boost::asio::make_work_guard( m_context ) )
-    , m_blockingSemaphore()
+
+/**
+ * @brief   Interface for a type of thread.
+ */
+class IThread : public virtual IObject
 {
-}
+public:
+    /**
+     * @brief       Starts execution of the thread.
+     */
+    virtual void Start() = 0;
 
-TaskQueue::~TaskQueue()
-{
-}
+    /**
+     * @brief       Stops execution of the thread, and blocks until the thread context is
+     * terminated.
+     */
+    virtual void Stop() = 0;
 
-std::string
-TaskQueue::Type() const
-{
-    return "TaskQueue";
-}
+    /**
+     * @brief       Gets the name of the device.
+     *
+     * @return      The name of the device.
+     */
+    virtual std::string Name() const = 0;
 
-void
-TaskQueue::Run()
-{
-    for ( ;; )
-    {
-        m_context.run();
-        if ( IsStopping() )
-        {
-            break;
-        }
-    }
-
-    m_context.reset();
-}
-
-void
-TaskQueue::NotifyStopping()
-{
-    m_context.stop();
-}
-
-void
-TaskQueue::BeginInvoke( std::function<void()> task )
-{
-    boost::asio::post( m_context, task );
-}
-
-void
-TaskQueue::Invoke( std::function<void()> task, std::chrono::milliseconds timeout_ms )
-{
-    // acquire the blocking semaphore
-    m_blockingSemaphore.Acquire();
-
-    // wrap the task into a new lambda that would release the semaphore when the task is executed
-    const auto outerTask = [ this, task ]()
-    {
-        task();
-        m_blockingSemaphore.Release();
-    };
-    BeginInvoke( outerTask );
-
-    // wait for the task to complete
-    m_blockingSemaphore.Wait( timeout_ms );
-}
+protected:
+    IThread() = default;
+    ~IThread() = default;
+};
 } // namespace Core
 } // namespace Gadgets

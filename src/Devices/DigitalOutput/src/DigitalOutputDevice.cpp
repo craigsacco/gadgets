@@ -51,7 +51,7 @@ DigitalOutputDevice::On()
         ResponseThrowOnError( response );
     };
 
-    m_pDriver->GetTaskQueue()->Enqueue(
+    m_pDriver->GetTaskQueue()->BeginInvoke(
         [ this, cb ]
         {
             m_pDriver->On( cb );
@@ -70,7 +70,7 @@ DigitalOutputDevice::Off()
         ResponseThrowOnError( response );
     };
 
-    m_pDriver->GetTaskQueue()->Enqueue(
+    m_pDriver->GetTaskQueue()->BeginInvoke(
         [ this, cb ]
         {
             m_pDriver->Off( cb );
@@ -89,7 +89,7 @@ DigitalOutputDevice::SetState( bool state )
         ResponseThrowOnError( response );
     };
 
-    m_pDriver->GetTaskQueue()->Enqueue(
+    m_pDriver->GetTaskQueue()->BeginInvoke(
         [ this, state, cb ]
         {
             m_pDriver->SetState( state, cb );
@@ -111,7 +111,7 @@ DigitalOutputDevice::GetState()
         ResponseThrowOnError( response );
     };
 
-    m_pDriver->GetTaskQueue()->Enqueue(
+    m_pDriver->GetTaskQueue()->BeginInvoke(
         [ this, cb ]
         {
             m_pDriver->GetState( cb );

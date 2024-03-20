@@ -32,6 +32,8 @@ namespace Gadgets
 {
 namespace Devices
 {
+
+// Forward declarations
 class IDeviceDriver;
 using IDeviceDriverSPtr = std::shared_ptr<IDeviceDriver>;
 

@@ -33,6 +33,7 @@ namespace Gadgets
 {
 namespace Core
 {
+// Forward declarations
 class ITaskQueue;
 using ITaskQueueSPtr = std::shared_ptr<ITaskQueue>;
 } // namespace Core
