@@ -23,16 +23,17 @@ function(set_gadgets_target_options __target__ __alias__ __idefolder___)
     set_target_properties(${__target__} PROPERTIES
         FOLDER ${__idefolder___}
     )
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         target_compile_options(${__target__}
             PRIVATE /W4         # enable all level 4 warnings
                     /WX         # warnings as errors
         )
-    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_compile_options(${__target__}
-            PRIVATE -Wall                   # enable all warnings
+            PRIVATE -Wno-unknown-pragmas    # disable warnings regarding unknown pragmas (fixed in GCC 13.x)
+                    -Wall                   # enable all other warnings
+                    --pedantic
                     -Werror                 # warnings as errors
-                    -Wno-unknown-pragmas    # disable warnings regarding unknown pragmas (fixed in GCC 13.x)
         )
     else()
         message(FATAL_ERROR "Compiler not supported")

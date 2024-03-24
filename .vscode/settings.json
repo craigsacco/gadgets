@@ -1,0 +1,16 @@
+{
+    "terminal.integrated.profiles.windows": {
+        "MSYS2 UCRT": {
+            "path": "C:\\MSYS64\\msys2_shell.cmd",
+            "args": [
+                "-defterm",
+                "-here",
+                "-no-start",
+                "-ucrt64",
+                "-shell",
+                "bash"
+            ]
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "MSYS2 UCRT"
+}

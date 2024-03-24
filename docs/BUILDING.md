@@ -32,6 +32,7 @@ To open the solution file, double-click the **Gadgets.sln** file from the **buil
 * CMake
 * GNU Make
 * Clang
+* LCOV
 
 ### Windows
 
@@ -40,11 +41,13 @@ The following additional requirements is needed:
 * MSYS2
 
 For Windows, the packages can be installed with the following commands inside of an **MSYS2** session:
-W
+
 ```
 > pacman -Suy
-> pacman -S mingw-w64-ucrt-x86_64-toolchain mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-make mingw-w64-ucrt-x86_64-clang
+> pacman -S mingw-w64-ucrt-x86_64-toolchain mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-make mingw-w64-ucrt-x86_64-clang lcov
 ```
+
+> **NOTE:** Do not install the **mingw-w64-ucrt-x86_64-lcov** package - it does not embed POSIX pathnames into the coverage data.
 
 ### Linux
 
@@ -52,7 +55,7 @@ For Ubuntu, the packages can be installed with the following commands in a **bas
 
 ```
 > sudo apt update
-> sudo apt install build-essential cmake g++ gcc clang make
+> sudo apt install build-essential cmake g++ gcc clang make lcov
 ```
 
 ## Instructions
@@ -68,4 +71,12 @@ Open a **bash** terminal and run the following commands (on Windows, use the UCR
 > cd build-gcc
 > cmake -G "Unix Makefiles" ..
 > make -j`nproc`
+```
+
+### Coverage Analysis
+
+To build with GCOV coverage analysis, execute the following command in place of CMake:
+
+```
+> cmake -G"Unix Makefiles" -DGADGETS_WITH_COVERAGE=ON ..
 ```

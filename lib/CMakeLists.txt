@@ -26,7 +26,7 @@ add_subdirectory(boost)
 # calling windmc.exe on boost/libs/log/src/windows/simple_event_log.mc - this is a
 # workaround for that issue
 if ((CMAKE_SYSTEM_NAME STREQUAL "Windows") AND (CMAKE_CXX_COMPILER_ID STREQUAL "GNU"))
-    message("Adding workaround for windmc.exe issue for boost_log")
+    message("-- Gadgets: adding workaround for windmc.exe issue for boost_log")
     file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/boost/libs/log/src/windows")
 endif()
 

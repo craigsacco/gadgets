@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+set -e
+
 find src/ -type f -print0 | xargs -0 dos2unix
 find tools/ -type f -print0 | xargs -0 dos2unix
 find lib/ -maxdepth 1 -type f -print0 | xargs -0 dos2unix

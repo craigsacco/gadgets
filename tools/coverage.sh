@@ -1,3 +1,5 @@
+#!env bash
+
 # Copyright (c) 2024 Craig Sacco
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,36 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-cmake_minimum_required(VERSION 3.16)
+set -e
 
-# define project name
-project(Gadgets)
+# delete all existing coverage data files and outputs
+find . -type f -name *.gcda -print0 | xargs -0 rm -f
 
-# set the standard to C++20
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+# execute the unit test runner
+pushd build-gcc/src/TestRunner
+./GadgetsTestRunner
+popd
 
-# enable project folders for IDE projects (like Visual Studio)
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "$ CMake Targets")
+# generate coverage data
+lcov --capture --base-directory . --directory build-gcc/src/ --output /tmp/gadgets_coverage_all.info
+lcov --remove /tmp/gadgets_coverage_all.info "/usr/*" "*/ucrt64/*" "*/mingw32/*" "*/mingw64/*" "*/clang32/*" "*/clang64/*" "`pwd`/lib/*" "`pwd`/src/TestRunner/*"  --output /tmp/gadgets_coverage.info
 
-# include Gadget project rules
-include(tools/gadgets.cmake)
+# generate coverage report
+rm -rf docs/coverage
+mkdir -p docs/coverage
+genhtml --branch-coverage /tmp/gadgets_coverage.info --prefix `pwd` --output-directory docs/coverage
 
-# boost needs this to silence some compiler warnings
-add_compile_definitions(_WIN32_WINNT=0x0601)
-
-# if GADGETS_WITH_COVERAGE is set, add switches to support coverage reporting
-if(GADGETS_WITH_COVERAGE)
-    message("-- Gadgets: adding compiler/linker flags for coverage analysis")
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        add_compile_options(--coverage)
-        add_link_options(--coverage -lgcov)
-    else()
-        message(FATAL_ERROR "Coverage not supported with compiler")
-    endif()
-endif()
-
-# include projects from lib/ and src/ folders
-add_subdirectory(lib)
-add_subdirectory(src)
+# remove coverage data
+rm -f /tmp/gadgets_coverage_all.info /tmp/gadgets_coverage.info
