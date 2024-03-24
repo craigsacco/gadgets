@@ -53,7 +53,7 @@ build-and-test-only:
       - checkout
     if: ${{ inputs.enable_coverage != true }}
     steps:
-      name: Configure Gadgets
+      - name: Configure Gadgets
         run: |
           mkdir build && cd build
           cmake ..
