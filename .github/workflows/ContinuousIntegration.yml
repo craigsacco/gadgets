@@ -14,7 +14,7 @@ on:
         default: 'true'
 
 jobs:
-  checkout:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Cache the Git repository folder
@@ -22,46 +22,38 @@ jobs:
         with:
           path: ./.git
           key: git-folder
+
       - name: Checkout Gadgets (recursively)
         uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
 
-  build-and-test-with-coverage:
-    runs-on: ubuntu-latest
-    needs:
-      - checkout
-    if: ${{ inputs.enable_coverage == true }}
-    steps:
-      - name: Configure Gadgets (with coverage)
-        run: |
-          mkdir build && cd build
-          cmake -DGADGETS_WITH_COVERAGE=ON ..
-      - name: Build Gadgets
-        run: |
-          cd build
-          make -j`nproc`
-      - name: Run Tests (with coverage)
-        run: |
-          sudo apt-get -y install lcov
-          tools/coverage.sh
-
-  build-and-test-only:
-    runs-on: ubuntu-latest
-    needs:
-      - checkout
-    if: ${{ inputs.enable_coverage != true }}
-    steps:
       - name: Configure Gadgets
+        if: ${{ inputs.enable_coverage != true }}
         run: |
           mkdir build && cd build
           cmake ..
+
+      - name: Configure Gadgets (with coverage)
+        if: ${{ inputs.enable_coverage == true }}
+        run: |
+          mkdir build && cd build
+          cmake -DGADGETS_WITH_COVERAGE=ON ..
+
       - name: Build Gadgets
         run: |
           cd build
           make -j`nproc`
+
       - name: Run Tests
         run: |
+          if: ${{ inputs.enable_coverage != true }}
           cd build-gcc/src/TestRunner
           ./GadgetsTestRunner
+
+      - name: Run Tests (with coverage)
+        if: ${{ inputs.enable_coverage == true }}
+        run: |
+          sudo apt-get -y install lcov
+          tools/coverage.sh
