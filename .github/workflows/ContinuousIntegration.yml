@@ -5,6 +5,12 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  workflow_call:
+    inputs:
+      enable_coverage:
+        type: boolean
+        required: true
+        default: true
   workflow_dispatch:
     inputs:
       enable_coverage:
