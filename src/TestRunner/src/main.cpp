@@ -22,9 +22,18 @@
 
 #include <gtest/gtest.h>
 
+#define REGISTER_TEST(testname) \
+    { \
+    extern int testname(); \
+    testname(); \
+    }
+
 int
 main( int argc, char** argv )
 {
     testing::InitGoogleTest( &argc, argv );
+
+    REGISTER_TEST( SemaphoreTests );
+
     return RUN_ALL_TESTS();
 }

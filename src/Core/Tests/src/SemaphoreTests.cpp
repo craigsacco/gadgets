@@ -28,6 +28,16 @@
 
 using namespace ::testing;
 
+int
+SemaphoreTests()
+{
+    return 0;
+}
+
+namespace Gadgets
+{
+namespace Core
+{
 class SemaphoreTests : public Test
 {
 public:
@@ -64,7 +74,7 @@ protected:
             } );
     }
 
-    Gadgets::Core::Semaphore m_semaphore;
+    Semaphore m_semaphore;
     std::thread m_thread;
     std::atomic<bool> m_releaseResult;
 };
@@ -102,4 +112,7 @@ TEST_F( SemaphoreTests, WaitAfterAcquireAndRelease )
     ASSERT_TRUE( m_semaphore.Acquire() );
     ASSERT_TRUE( m_semaphore.Release() );
     ASSERT_TRUE( m_semaphore.Wait( std::chrono::seconds( 1 ) ) );
+}
+
+}
 }

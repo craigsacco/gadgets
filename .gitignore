@@ -1,5 +1,6 @@
 # ignore build and documentation output folders
 build*/
+docs/coverage/
 docs/doxygen/
 
 # build temporary and backup files
@@ -7,3 +8,4 @@ docs/doxygen/
 *.temp
 *.bak
 *.orig
+*.lcov.info

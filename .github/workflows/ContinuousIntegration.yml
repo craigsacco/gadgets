@@ -32,7 +32,6 @@ jobs:
           cd build
           make -j`nproc`
 
-      - name: Run Tests
+      - name: Run Tests (with Coverage)
         run: |
-          cd build/src/TestRunner
-          ./GadgetsTestRunner
+          tools/coverage.sh

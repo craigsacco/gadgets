@@ -21,7 +21,7 @@
 add_gadgets_executable(
     TARGET      GadgetsTestRunner
     ALIAS       Gadgets::TestRunner
-    IDEFOLDER   "Gadgets/TestRunner"
+    IDEFOLDER   "Gadgets/Tests"
 )
 
 target_include_directories(GadgetsTestRunner
@@ -30,12 +30,11 @@ target_include_directories(GadgetsTestRunner
 )
 
 target_link_libraries(GadgetsTestRunner
-    PUBLIC  Gadgets::Core
+    PUBLIC  Gadgets::Tests::Core
             gmock
             gtest
 )
 
 target_sources(GadgetsTestRunner
     PRIVATE src/main.cpp
-            src/SemaphoreTests.cpp
 )
