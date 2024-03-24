@@ -1,4 +1,4 @@
-#!env bash
+#!/usr/bin/env bash
 
 # Copyright (c) 2024 Craig Sacco
 #
