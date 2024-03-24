@@ -14,7 +14,7 @@ on:
         default: 'true'
 
 jobs:
-  build-and-test:
+  checkout:
     runs-on: ubuntu-latest
     steps:
       - name: Cache the Git repository folder
@@ -22,38 +22,46 @@ jobs:
         with:
           path: ./.git
           key: git-folder
-
       - name: Checkout Gadgets (recursively)
         uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
 
-      - if: github.event.inputs.enable_coverage == 'true'
-        name: Configure Gadgets (with coverage)
-          run: |
-            mkdir build && cd build
-            cmake -DGADGETS_WITH_COVERAGE=ON ..
-
-      - if: github.event.inputs.enable_coverage != 'true'
-        name: Configure Gadgets
-          run: |
-            mkdir build && cd build
-            cmake ..
-
+  build-and-test-with-coverage:
+    runs-on: ubuntu-latest
+    needs:
+      - checkout
+    if: ${{ inputs.enable_coverage == true }}
+    steps:
+      - name: Configure Gadgets (with coverage)
+        run: |
+          mkdir build && cd build
+          cmake -DGADGETS_WITH_COVERAGE=ON ..
       - name: Build Gadgets
         run: |
           cd build
           make -j`nproc`
+      - name: Run Tests (with coverage)
+        run: |
+          sudo apt-get -y install lcov
+          tools/coverage.sh
 
-      - if: github.event.inputs.enable_coverage == 'true'
-        name: Run Tests (with coverage)
-          run: |
-            sudo apt-get -y install lcov
-            tools/coverage.sh
-
-      - if: github.event.inputs.enable_coverage != 'true'
-        name: Run Tests
-          run: |
-            cd build-gcc/src/TestRunner
-            ./GadgetsTestRunner
+build-and-test-only:
+    runs-on: ubuntu-latest
+    needs:
+      - checkout
+    if: ${{ inputs.enable_coverage != true }}
+    steps:
+      name: Configure Gadgets
+        run: |
+          mkdir build && cd build
+          cmake ..
+      - name: Build Gadgets
+        run: |
+          cd build
+          make -j`nproc`
+      - name: Run Tests
+        run: |
+          cd build-gcc/src/TestRunner
+          ./GadgetsTestRunner
