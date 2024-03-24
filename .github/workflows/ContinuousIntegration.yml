@@ -2,9 +2,16 @@ name: Continuous Integration
 
 on:
   push:
-      branches: [ master ]
+    branches: [ master ]
   pull_request:
-      branches: [ master ]
+    branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      enable_coverage:
+        description: 'Enable coverage?'
+        type: boolean
+        required: true
+        default: 'true'
 
 jobs:
   build-and-test:
@@ -22,16 +29,31 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - name: Configure Gadgets (with coverage)
-        run: |
-          mkdir build && cd build
-          cmake -DGADGETS_WITH_COVERAGE=ON ..
+      - if: github.event.inputs.enable_coverage == 'true'
+        name: Configure Gadgets (with coverage)
+          run: |
+            mkdir build && cd build
+            cmake -DGADGETS_WITH_COVERAGE=ON ..
+
+      - if: github.event.inputs.enable_coverage != 'true'
+        name: Configure Gadgets
+          run: |
+            mkdir build && cd build
+            cmake ..
 
       - name: Build Gadgets
         run: |
           cd build
           make -j`nproc`
 
-      - name: Run Tests (with coverage)
-        run: |
-          tools/coverage.sh
+      - if: github.event.inputs.enable_coverage == 'true'
+        name: Run Tests (with coverage)
+          run: |
+            sudo apt-get -y install lcov
+            tools/coverage.sh
+
+      - if: github.event.inputs.enable_coverage != 'true'
+        name: Run Tests
+          run: |
+            cd build-gcc/src/TestRunner
+            ./GadgetsTestRunner
