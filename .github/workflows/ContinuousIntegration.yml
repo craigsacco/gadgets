@@ -47,8 +47,8 @@ jobs:
           make -j`nproc`
 
       - name: Run Tests
+        if: ${{ inputs.enable_coverage != true }}
         run: |
-          if: ${{ inputs.enable_coverage != true }}
           cd build-gcc/src/TestRunner
           ./GadgetsTestRunner
 
