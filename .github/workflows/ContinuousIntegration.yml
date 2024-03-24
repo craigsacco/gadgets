@@ -22,16 +22,16 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - name: Configure Gadgets
+      - name: Configure Gadgets (with coverage)
         run: |
           mkdir build && cd build
-          cmake ..
+          cmake -DGADGETS_WITH_COVERAGE=ON ..
 
       - name: Build Gadgets
         run: |
           cd build
           make -j`nproc`
 
-      - name: Run Tests (with Coverage)
+      - name: Run Tests (with coverage)
         run: |
           tools/coverage.sh
