@@ -11,7 +11,7 @@ on:
         description: 'Enable coverage?'
         type: boolean
         required: true
-        default: 'true'
+        default: true
 
 jobs:
   build-and-test:
@@ -30,24 +30,24 @@ jobs:
           fetch-depth: 0
 
       - name: Configure Gadgets
-        if: ${{ inputs.enable_coverage != true }}
+        if: ${{ inputs.enable_coverage == false }}
         run: |
-          mkdir build && cd build
+          mkdir build-gcc && cd build-gcc
           cmake ..
 
       - name: Configure Gadgets (with coverage)
         if: ${{ inputs.enable_coverage == true }}
         run: |
-          mkdir build && cd build
+          mkdir build-gcc && cd build-gcc
           cmake -DGADGETS_WITH_COVERAGE=ON ..
 
       - name: Build Gadgets
         run: |
-          cd build
+          cd build-gcc
           make -j`nproc`
 
       - name: Run Tests
-        if: ${{ inputs.enable_coverage != true }}
+        if: ${{ inputs.enable_coverage == false }}
         run: |
           cd build-gcc/src/TestRunner
           ./GadgetsTestRunner
