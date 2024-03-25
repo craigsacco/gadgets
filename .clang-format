@@ -47,7 +47,7 @@ BinPackParameters: true
 LineEnding: LF
 KeepEmptyLinesAtEOF: false
 KeepEmptyLinesAtTheStartOfBlocks: false
-AllowShortLambdasOnASingleLine: None
+AllowShortLambdasOnASingleLine: Inline
 AllowShortEnumsOnASingleLine: false
 
 # using https://clang-format-configurator.site/

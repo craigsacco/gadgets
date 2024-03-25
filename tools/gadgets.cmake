@@ -48,6 +48,16 @@ function(add_gadgets_library)
     set_gadgets_target_options(${__arg_TARGET} ${__arg_ALIAS} ${__arg_IDEFOLDER})
 endfunction()
 
+# definition for a Gadgets hader-only library
+function(add_gadgets_header_only_library)
+    cmake_parse_arguments(__arg "" "TARGET;ALIAS;IDEFOLDER" "" ${ARGN})
+    add_library(${__arg_TARGET} INTERFACE)
+    add_library(${__arg_ALIAS} ALIAS ${__arg_TARGET})
+    set_target_properties(${__arg_TARGET} PROPERTIES
+        FOLDER ${__arg_IDEFOLDER}
+    )
+endfunction()
+
 # definition for a Gadgets executable
 function(add_gadgets_executable)
     cmake_parse_arguments(__arg "" "TARGET;ALIAS;IDEFOLDER" "" ${ARGN})
@@ -55,9 +65,9 @@ function(add_gadgets_executable)
     add_executable(${__arg_ALIAS} ALIAS ${__arg_TARGET})
     set_gadgets_target_options(${__arg_TARGET} ${__arg_ALIAS} ${__arg_IDEFOLDER})
 
-    # add winsock2 as a link dependency for Windows executables
-    # (Boost::asio requires this)
-    if(CMAKE_SYSTEM_NAME STREQUAL "Windows") 
-        target_link_libraries(${__arg_TARGET} PRIVATE wsock32 ws2_32)
+    # add libws2_32.a as a link dependency for Windows executables
+    # built using GCC (Boost::asio requires this)
+    if((CMAKE_SYSTEM_NAME STREQUAL "Windows") AND (CMAKE_CXX_COMPILER_ID STREQUAL "GNU"))
+        target_link_libraries(${__arg_TARGET} PUBLIC wsock32 ws2_32)
     endif()
 endfunction()

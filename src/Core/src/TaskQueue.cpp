@@ -30,7 +30,6 @@ TaskQueue::TaskQueue( const std::string& name )
     : Thread( name )
     , m_context()
     , m_workguard( boost::asio::make_work_guard( m_context ) )
-    , m_blockingSemaphore()
 {
 }
 
@@ -69,24 +68,6 @@ void
 TaskQueue::BeginInvoke( std::function<void()> task )
 {
     boost::asio::post( m_context, task );
-}
-
-void
-TaskQueue::Invoke( std::function<void()> task, std::chrono::milliseconds timeout_ms )
-{
-    // acquire the blocking semaphore
-    m_blockingSemaphore.Acquire();
-
-    // wrap the task into a new lambda that would release the semaphore when the task is executed
-    const auto outerTask = [ this, task ]()
-    {
-        task();
-        m_blockingSemaphore.Release();
-    };
-    BeginInvoke( outerTask );
-
-    // wait for the task to complete
-    m_blockingSemaphore.Wait( timeout_ms );
 }
 } // namespace Core
 } // namespace Gadgets

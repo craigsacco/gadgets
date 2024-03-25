@@ -30,7 +30,7 @@ target_include_directories(GadgetsTestRunner
 )
 
 target_link_libraries(GadgetsTestRunner
-    PUBLIC  Gadgets::Tests::Core
+    PUBLIC  Gadgets::Core::Tests
             gmock
             gtest
 )

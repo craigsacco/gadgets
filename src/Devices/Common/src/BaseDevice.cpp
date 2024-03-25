@@ -62,11 +62,7 @@ BaseDevice::Initialise()
         ResponseThrowOnError( response );
     };
 
-    m_pDriver->GetTaskQueue()->BeginInvoke(
-        [ this, cb ]
-        {
-            m_pDriver->Initialise( cb );
-        } );
+    m_pDriver->GetTaskQueue()->BeginInvoke( [ this, cb ] { m_pDriver->Initialise( cb ); } );
 }
 
 void
@@ -81,11 +77,7 @@ BaseDevice::Shutdown()
         ResponseThrowOnError( response );
     };
 
-    m_pDriver->GetTaskQueue()->BeginInvoke(
-        [ this, cb ]
-        {
-            m_pDriver->Shutdown( cb );
-        } );
+    m_pDriver->GetTaskQueue()->BeginInvoke( [ this, cb ] { m_pDriver->Shutdown( cb ); } );
 }
 
 void

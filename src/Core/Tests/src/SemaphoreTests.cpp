@@ -51,6 +51,8 @@ public:
     void
     SetUp() override
     {
+        // implicit tests to boost coverage
+        ASSERT_EQ( "Semaphore", m_semaphore.Type() );
     }
 
     void
@@ -114,5 +116,12 @@ TEST_F( SemaphoreTests, WaitAfterAcquireAndRelease )
     ASSERT_TRUE( m_semaphore.Wait( std::chrono::seconds( 1 ) ) );
 }
 
+TEST_F( SemaphoreTests, CannotAcquireTwice )
+{
+    ASSERT_TRUE( m_semaphore.Acquire() );
+    ASSERT_FALSE( m_semaphore.Acquire() );
+    ASSERT_TRUE( m_semaphore.Release() );
 }
-}
+
+} // namespace Core
+} // namespace Gadgets

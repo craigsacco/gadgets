@@ -20,7 +20,7 @@
 
 add_gadgets_library(
     TARGET      GadgetsCoreTests
-    ALIAS       Gadgets::Tests::Core
+    ALIAS       Gadgets::Core::Tests
     IDEFOLDER   "Gadgets/Tests"
 )
 
@@ -31,10 +31,13 @@ target_include_directories(GadgetsCoreTests
 
 target_link_libraries(GadgetsCoreTests
     PUBLIC  Gadgets::Core
+            Gadgets::Core::Mocks
             gmock
             gtest
 )
 
 target_sources(GadgetsCoreTests
-    PRIVATE src/SemaphoreTests.cpp
+    PRIVATE src/LoggerSingletonTests.cpp
+            src/SemaphoreTests.cpp
+            src/TaskQueueTests.cpp
 )

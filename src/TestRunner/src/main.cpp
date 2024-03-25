@@ -22,10 +22,10 @@
 
 #include <gtest/gtest.h>
 
-#define REGISTER_TEST(testname) \
-    { \
-    extern int testname(); \
-    testname(); \
+#define REGISTER_TEST( testname )                                                                  \
+    {                                                                                              \
+        extern int testname();                                                                     \
+        testname();                                                                                \
     }
 
 int
@@ -33,7 +33,10 @@ main( int argc, char** argv )
 {
     testing::InitGoogleTest( &argc, argv );
 
+    // from Gadgets::Core
+    REGISTER_TEST( LoggerSingletonTests );
     REGISTER_TEST( SemaphoreTests );
+    // REGISTER_TEST( TaskQueueTests );
 
     return RUN_ALL_TESTS();
 }

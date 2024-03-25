@@ -23,7 +23,6 @@
 #pragma once
 
 #include <Gadgets/Core/ITaskQueue.hpp>
-#include <Gadgets/Core/Semaphore.hpp>
 #include <Gadgets/Core/Thread.hpp>
 
 #include <boost/asio.hpp>
@@ -57,20 +56,18 @@ public:
     std::string Type() const final;
 #pragma endregion
 
+#pragma region "Overrides from ITaskQueue"
+    void BeginInvoke( std::function<void()> task ) override final;
+#pragma endregion
+
+private:
 #pragma region "Overrides from Thread"
     void Run() override final;
     void NotifyStopping() override final;
 #pragma endregion
 
-#pragma region "Overrides from ITaskQueue"
-    void BeginInvoke( std::function<void()> task ) override final;
-    void Invoke( std::function<void()> task, std::chrono::milliseconds timeout_ms ) override final;
-#pragma endregion
-
-private:
     boost::asio::io_context m_context;
     boost::asio::executor_work_guard<boost::asio::io_context::executor_type> m_workguard;
-    Semaphore m_blockingSemaphore;
 };
 } // namespace Core
 } // namespace Gadgets
