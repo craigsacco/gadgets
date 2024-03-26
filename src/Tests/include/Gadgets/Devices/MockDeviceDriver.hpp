@@ -20,23 +20,39 @@
  * SOFTWARE.
  */
 
-#include <gtest/gtest.h>
+#pragma once
 
-#define REGISTER_TEST( testname )                                                                  \
-    {                                                                                              \
-        extern int testname();                                                                     \
-        testname();                                                                                \
-    }
+#include <Gadgets/Devices/IDeviceDriver.hpp>
 
-int
-main( int argc, char** argv )
+#include <gmock/gmock.h>
+
+namespace Gadgets
 {
-    testing::InitGoogleTest( &argc, argv );
+namespace Devices
+{
 
-    // from Gadgets::Core
-    REGISTER_TEST( LoggerSingletonTests );
-    REGISTER_TEST( SemaphoreTests );
-    // REGISTER_TEST( TaskQueueTests );
+class MockDeviceDriver : public virtual IDeviceDriver
+{
+public:
+    MockDeviceDriver() = default;
+    virtual ~MockDeviceDriver() = default;
 
-    return RUN_ALL_TESTS();
-}
+#pragma region "Overrides from IObject"
+    std::string
+    Type() const
+    {
+        return "MockDeviceDriver";
+    }
+#pragma endregion
+
+#pragma region "Overrides from IDeviceDriver"
+    MOCK_METHOD1( Initialise, void( std::function<void( DriverResponse )> cb ) );
+    MOCK_METHOD1( Shutdown, void( std::function<void( DriverResponse )> cb ) );
+    MOCK_CONST_METHOD0( Name, std::string() );
+    MOCK_METHOD1( SetTaskQueue, void( Core::ITaskQueueSPtr pTaskQueue ) );
+    MOCK_CONST_METHOD0( GetTaskQueue, Core::ITaskQueueSPtr() );
+#pragma endregion
+};
+
+} // namespace Devices
+} // namespace Gadgets

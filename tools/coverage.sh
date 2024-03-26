@@ -29,7 +29,7 @@ find . -type f -name *.gcda -print0 | xargs -0 rm -f
 lcov --capture --initial --base-directory . --directory build-gcc/src/ --output ./gadgets_init.lcov.info
 
 # execute the unit test runner
-pushd build-gcc/src/TestRunner
+pushd build-gcc/src/Tests
 ./GadgetsTestRunner
 popd
 
@@ -38,7 +38,7 @@ lcov --capture --base-directory . --directory build-gcc/src/ --output ./gadgets_
 
 # combine the two sets of data, and then strip out the bits we don't need
 lcov --add ./gadgets_init.lcov.info --add ./gadgets_tests.lcov.info --output ./gadgets_all.lcov.info
-lcov --remove ./gadgets_all.lcov.info "/usr/*" "*/ucrt64/*" "*/mingw32/*" "*/mingw64/*" "*/clang32/*" "*/clang64/*" "`pwd`/lib/*" "`pwd`/src/TestRunner/*" "`pwd`/src/Example/*" "`pwd`/src/*/Tests/*" "`pwd`/src/*/Mocks/*" --output ./gadgets_filtered.lcov.info
+lcov --remove ./gadgets_all.lcov.info "/usr/*" "*/ucrt64/*" "*/mingw32/*" "*/mingw64/*" "*/clang32/*" "*/clang64/*" "`pwd`/lib/*" "`pwd`/src/Tests/*" "`pwd`/src/Example/*" --output ./gadgets_filtered.lcov.info
 
 # generate coverage report
 rm -rf docs/coverage

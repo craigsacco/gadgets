@@ -52,6 +52,3 @@ target_sources(GadgetsCore
             include/Gadgets/Core/TaskQueue.hpp
             include/Gadgets/Core/Thread.hpp
 )
-
-add_subdirectory(Mocks)
-add_subdirectory(Tests)

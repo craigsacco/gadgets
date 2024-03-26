@@ -21,7 +21,7 @@
  */
 
 #include <Gadgets/Core/LoggerSingleton.hpp>
-#include <Gadgets/Mocks/MockLogger.hpp>
+#include <Gadgets/Core/MockLogger.hpp>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -43,10 +43,6 @@ namespace Core
 class LoggerSingletonTests : public Test
 {
 public:
-    LoggerSingletonTests()
-    {
-    }
-
     void
     SetUp() override
     {
@@ -80,6 +76,15 @@ TEST_F( LoggerSingletonTests, UsingRegisteredObject )
     LoggerSingleton::Get()->LogWarning( "Comp4", "Msg4", "File4", 4 );
     LoggerSingleton::Get()->LogError( "Comp5", "Msg5", "File5", 5 );
     LoggerSingleton::Get()->LogFatal( "Comp6", "Msg6", "File6", 6 );
+}
+
+TEST_F( LoggerSingletonTests, CannotRegisterTwice )
+{
+    auto pLogger = std::make_shared<StrictMock<MockLogger>>();
+    ASSERT_NO_THROW( LoggerSingleton::Register( pLogger ) );
+
+    auto pLogger2 = std::make_shared<StrictMock<MockLogger>>();
+    ASSERT_THROW( LoggerSingleton::Register( pLogger2 ), std::logic_error );
 }
 
 TEST_F( LoggerSingletonTests, UsingDefaultObject )

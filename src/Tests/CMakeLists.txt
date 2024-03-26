@@ -18,22 +18,31 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-add_gadgets_header_only_library(
-    TARGET      GadgetsCoreMocks
-    ALIAS       Gadgets::Core::Mocks
+add_gadgets_executable(
+    TARGET      GadgetsTestRunner
+    ALIAS       Gadgets::TestRunner
     IDEFOLDER   "Gadgets/Tests"
 )
 
-target_include_directories(GadgetsCoreMocks
-    INTERFACE include
+target_include_directories(GadgetsTestRunner
+    PRIVATE include
 )
 
-target_link_libraries(GadgetsCoreMocks
-    INTERFACE Gadgets::Core
-              gmock
-              gtest
+target_link_libraries(GadgetsTestRunner
+    PUBLIC  Gadgets::Core
+            Gadgets::Devices::Common
+            gmock
+            gtest
 )
 
-target_sources(GadgetsCoreMocks
-    PRIVATE include/Gadgets/Mocks/MockLogger.hpp
+target_sources(GadgetsTestRunner
+    PRIVATE include/Gadgets/Core/MockLogger.hpp
+            include/Gadgets/Core/MockTaskQueue.hpp
+            include/Gadgets/Devices/MockDeviceDriver.hpp
+            
+            src/main.cpp
+            src/Gadgets/Core/LoggerSingletonTests.cpp
+            src/Gadgets/Core/SemaphoreTests.cpp
+            src/Gadgets/Core/TaskQueueTests.cpp
+            src/Gadgets/Devices/BaseDeviceTests.cpp
 )
