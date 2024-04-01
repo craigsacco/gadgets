@@ -31,12 +31,6 @@
 
 using namespace ::testing;
 
-int
-BaseDeviceTests()
-{
-    return 0;
-}
-
 namespace Gadgets
 {
 namespace Devices

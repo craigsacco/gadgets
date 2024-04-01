@@ -30,15 +30,7 @@
 
 #include <thread>
 
-/*
-
 using namespace ::testing;
-
-int
-TaskQueueTests()
-{
-    return 0;
-}
 
 namespace Gadgets
 {
@@ -120,8 +112,7 @@ TEST_F( TaskQueueTests, DispatchedTasksBeforeStartAreStillExecutedWhenStarted )
     }
 
     // dispatch tasks before starting thread - start thread and synchronise the completion of the
-last
-    // task with this thread before stopping the task queue
+    // last task with this thread before stopping the task queue
     m_taskQueue.BeginInvoke( [ this ] { OnCallback( 1 ); } );
     m_taskQueue.BeginInvoke( [ this ] { OnCallback( 2 ); } );
     m_taskQueue.BeginInvoke( [ this ] { OnCallback( 3 ); } );
@@ -167,5 +158,3 @@ TEST_F( TaskQueueTests, DispatchTasksCompleteBeforeCompleteStop )
 
 } // namespace Core
 } // namespace Gadgets
-
-*/

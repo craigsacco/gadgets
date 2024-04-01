@@ -30,12 +30,6 @@
 
 using namespace ::testing;
 
-int
-SemaphoreTests()
-{
-    return 0;
-}
-
 namespace Gadgets
 {
 namespace Core

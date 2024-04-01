@@ -32,12 +32,6 @@
 
 using namespace ::testing;
 
-int
-LoggerSingletonTests()
-{
-    return 0;
-}
-
 namespace Gadgets
 {
 namespace Core
@@ -48,11 +42,14 @@ public:
     void
     SetUp() override
     {
+        // dispose any instances that may linger before the start of this test
+        LoggerSingleton::Destroy();
     }
 
     void
     TearDown() override
     {
+        // dispose any instances that may linger before the end of this test
         LoggerSingleton::Destroy();
     }
 };

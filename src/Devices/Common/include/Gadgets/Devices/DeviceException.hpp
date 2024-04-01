@@ -55,7 +55,9 @@ public:
     /**
      * @brief       Virtual destructor.
      */
-    virtual ~DeviceException();
+    virtual ~DeviceException()
+    {
+    }
 
     /**
      * @brief       Gets the message attached to this exception.
