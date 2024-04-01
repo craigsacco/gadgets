@@ -73,7 +73,7 @@ public:
 protected:
 #pragma region "Overrides from BaseDevice"
     DeviceResponse ToDeviceResponse( DriverResponse response ) const override final;
-    void ResponseThrowOnError( DeviceResponse response ) const override final;
+    void HandleActionResponse( DeviceResponse response ) const override final;
 #pragma endregion
 
 private:

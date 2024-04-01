@@ -36,6 +36,7 @@ target_link_libraries(GadgetsDevicesCommon
 target_sources(GadgetsDevicesCommon
     PRIVATE src/BaseDevice.cpp
             include/Gadgets/Devices/BaseDevice.hpp
+            include/Gadgets/Devices/DeviceException.hpp
             include/Gadgets/Devices/DeviceResponse.hpp
             include/Gadgets/Devices/DriverResponse.hpp
             include/Gadgets/Devices/IDevice.hpp

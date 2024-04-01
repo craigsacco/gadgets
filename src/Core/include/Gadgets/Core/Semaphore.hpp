@@ -78,8 +78,15 @@ public:
      */
     bool Wait( std::chrono::milliseconds timeout_ms );
 
+    /**
+     * @brief       Gets the acquisition state of this semaphore.
+     *
+     * @return      True if the semaphore has been acqired.
+     */
+    bool IsAcquired() const;
+
 private:
-    std::mutex m_mutex;
+    mutable std::mutex m_mutex;
     std::condition_variable m_cv;
     bool m_acquired;
 };

@@ -82,6 +82,13 @@ public:
      */
     virtual std::string Name() const = 0;
 
+    /**
+     * @brief       Checks if an action is in progress.
+     *
+     * @return      True if an action is in progress.
+     */
+    virtual bool IsActionInProgress() const = 0;
+
 protected:
     IDevice() = default;
     ~IDevice() = default;

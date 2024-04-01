@@ -83,44 +83,62 @@ protected:
 
 TEST_F( SemaphoreTests, WaitBlocksUntilRelease )
 {
+    ASSERT_FALSE( m_semaphore.IsAcquired() );
     ASSERT_TRUE( m_semaphore.Acquire() );
+    ASSERT_TRUE( m_semaphore.IsAcquired() );
     CreateThreadForRelease( std::chrono::milliseconds( 500 ) );
     ASSERT_TRUE( m_semaphore.Wait( std::chrono::seconds( 1 ) ) );
     m_thread.join();
     ASSERT_TRUE( m_releaseResult );
+    ASSERT_FALSE( m_semaphore.IsAcquired() );
 }
 
 TEST_F( SemaphoreTests, WaitTimesOutBeforeRelease )
 {
+    ASSERT_FALSE( m_semaphore.IsAcquired() );
     ASSERT_TRUE( m_semaphore.Acquire() );
+    ASSERT_TRUE( m_semaphore.IsAcquired() );
     CreateThreadForRelease( std::chrono::seconds( 1 ) );
     ASSERT_FALSE( m_semaphore.Wait( std::chrono::milliseconds( 500 ) ) );
     m_thread.join();
     ASSERT_TRUE( m_releaseResult );
+    ASSERT_FALSE( m_semaphore.IsAcquired() );
 }
 
 TEST_F( SemaphoreTests, ReleaseWithoutAcquire )
 {
+    ASSERT_FALSE( m_semaphore.IsAcquired() );
     ASSERT_FALSE( m_semaphore.Release() );
+    ASSERT_FALSE( m_semaphore.IsAcquired() );
 }
 
 TEST_F( SemaphoreTests, WaitWithoutAcquire )
 {
+    ASSERT_FALSE( m_semaphore.IsAcquired() );
     ASSERT_TRUE( m_semaphore.Wait( std::chrono::seconds( 1 ) ) );
+    ASSERT_FALSE( m_semaphore.IsAcquired() );
 }
 
 TEST_F( SemaphoreTests, WaitAfterAcquireAndRelease )
 {
+    ASSERT_FALSE( m_semaphore.IsAcquired() );
     ASSERT_TRUE( m_semaphore.Acquire() );
+    ASSERT_TRUE( m_semaphore.IsAcquired() );
     ASSERT_TRUE( m_semaphore.Release() );
+    ASSERT_FALSE( m_semaphore.IsAcquired() );
     ASSERT_TRUE( m_semaphore.Wait( std::chrono::seconds( 1 ) ) );
+    ASSERT_FALSE( m_semaphore.IsAcquired() );
 }
 
 TEST_F( SemaphoreTests, CannotAcquireTwice )
 {
+    ASSERT_FALSE( m_semaphore.IsAcquired() );
     ASSERT_TRUE( m_semaphore.Acquire() );
+    ASSERT_TRUE( m_semaphore.IsAcquired() );
     ASSERT_FALSE( m_semaphore.Acquire() );
+    ASSERT_TRUE( m_semaphore.IsAcquired() );
     ASSERT_TRUE( m_semaphore.Release() );
+    ASSERT_FALSE( m_semaphore.IsAcquired() );
 }
 
 } // namespace Core

@@ -48,7 +48,6 @@ DigitalOutputDevice::On()
     {
         auto response = ToDeviceResponse( driverResponse );
         FinaliseAsyncAction( response );
-        ResponseThrowOnError( response );
     };
 
     m_pDriver->GetTaskQueue()->BeginInvoke( [ this, cb ] { m_pDriver->On( cb ); } );
@@ -63,7 +62,6 @@ DigitalOutputDevice::Off()
     {
         auto response = ToDeviceResponse( driverResponse );
         FinaliseAsyncAction( response );
-        ResponseThrowOnError( response );
     };
 
     m_pDriver->GetTaskQueue()->BeginInvoke( [ this, cb ] { m_pDriver->Off( cb ); } );
@@ -78,7 +76,6 @@ DigitalOutputDevice::SetState( bool state )
     {
         auto response = ToDeviceResponse( driverResponse );
         FinaliseAsyncAction( response );
-        ResponseThrowOnError( response );
     };
 
     m_pDriver->GetTaskQueue()->BeginInvoke( [ this, state, cb ]
@@ -97,7 +94,6 @@ DigitalOutputDevice::GetState()
         state = returnState;
         auto response = ToDeviceResponse( driverResponse );
         FinaliseAsyncAction( response );
-        ResponseThrowOnError( response );
     };
 
     m_pDriver->GetTaskQueue()->BeginInvoke( [ this, cb ] { m_pDriver->GetState( cb ); } );
@@ -113,9 +109,9 @@ DigitalOutputDevice::ToDeviceResponse( DriverResponse response ) const
 }
 
 void
-DigitalOutputDevice::ResponseThrowOnError( DeviceResponse response ) const
+DigitalOutputDevice::HandleActionResponse( DeviceResponse response ) const
 {
-    BaseDevice::ResponseThrowOnError( response );
+    BaseDevice::HandleActionResponse( response );
 }
 } // namespace Devices
 } // namespace Gadgets

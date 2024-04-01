@@ -37,6 +37,7 @@ BaseDevice::BaseDevice( const std::string& name, const std::string& type,
     , m_type( type )
     , m_pDriver( pDriver )
     , m_semaphore()
+    , m_lastActionResponse( StandardDeviceResponses::DeviceOK )
 {
 }
 
@@ -45,9 +46,9 @@ BaseDevice::~BaseDevice()
 }
 
 std::string
-BaseDevice::Name() const
+BaseDevice::Type() const
 {
-    return m_name;
+    return m_type;
 }
 
 void
@@ -59,7 +60,6 @@ BaseDevice::Initialise()
     {
         auto response = ToDeviceResponse( driverResponse );
         FinaliseAsyncAction( response );
-        ResponseThrowOnError( response );
     };
 
     m_pDriver->GetTaskQueue()->BeginInvoke( [ this, cb ] { m_pDriver->Initialise( cb ); } );
@@ -74,7 +74,6 @@ BaseDevice::Shutdown()
     {
         auto response = ToDeviceResponse( driverResponse );
         FinaliseAsyncAction( response );
-        ResponseThrowOnError( response );
     };
 
     m_pDriver->GetTaskQueue()->BeginInvoke( [ this, cb ] { m_pDriver->Shutdown( cb ); } );
@@ -93,12 +92,20 @@ BaseDevice::Wait( std::chrono::milliseconds timeout_ms )
     {
         THROW_RUNTIME_ERROR( "Action timed out" );
     }
+
+    HandleActionResponse( m_lastActionResponse );
 }
 
 std::string
-BaseDevice::Type() const
+BaseDevice::Name() const
 {
-    return m_type;
+    return m_name;
+}
+
+bool
+BaseDevice::IsActionInProgress() const
+{
+    return m_semaphore.IsAcquired();
 }
 
 std::chrono::milliseconds
@@ -125,6 +132,8 @@ BaseDevice::FinaliseAsyncAction( DeviceResponse response )
     {
         THROW_LOGIC_ERROR( "StartAsyncAction() not called beforehand" );
     }
+
+    m_lastActionResponse = response;
 }
 
 DeviceResponse
@@ -145,7 +154,7 @@ BaseDevice::ToDeviceResponse( DriverResponse response ) const
 }
 
 void
-BaseDevice::ResponseThrowOnError( DeviceResponse response ) const
+BaseDevice::HandleActionResponse( DeviceResponse response ) const
 {
     switch ( response )
     {
@@ -153,11 +162,11 @@ BaseDevice::ResponseThrowOnError( DeviceResponse response ) const
         break; // no error
 
     case StandardDeviceResponses::DeviceFailed:
-        THROW_RUNTIME_ERROR( "Device action encountered a failure" );
+        THROW_DEVICE_EXCEPTION( "Device action encountered a failure", response );
         break;
 
     default:
-        THROW_RUNTIME_ERROR( "Device encountered an unhandled error" );
+        THROW_DEVICE_EXCEPTION( "Device encountered an unhandled error", response );
         break;
     }
 }

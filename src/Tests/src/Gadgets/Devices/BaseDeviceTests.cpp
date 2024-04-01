@@ -20,8 +20,8 @@
  * SOFTWARE.
  */
 
-#include <Gadgets/Devices/BaseDevice.hpp>
 #include <Gadgets/Core/MockTaskQueue.hpp>
+#include <Gadgets/Devices/BaseDevice.hpp>
 #include <Gadgets/Devices/MockDeviceDriver.hpp>
 
 #include <gmock/gmock.h>
@@ -47,22 +47,23 @@ public:
         , m_pTaskQueue( std::make_shared<Core::MockTaskQueue>() )
         , m_device( m_pDriver )
     {
+        // setup task queue - execute invoked tasks immediately
+        m_pTaskQueue->RunOnInvoke();
+        EXPECT_CALL( *m_pDriver, GetTaskQueue() ).WillRepeatedly( Return( m_pTaskQueue ) );
     }
 
     void
     SetUp() override
     {
         // implicit tests to boost coverage
-        //ASSERT_EQ( "TaskQueue", m_taskQueue.Type() );
-        //ASSERT_EQ( s_taskQueueName, m_taskQueue.Name() );
+        ASSERT_EQ( TestDevice::DeviceType, m_device.Type() );
+        ASSERT_EQ( TestDevice::DeviceName, m_device.Name() );
     }
 
     void
     TearDown() override
     {
     }
-
-    MOCK_METHOD1( OnCallback, void( uint32_t ) );
 
 protected:
     std::shared_ptr<StrictMock<MockDeviceDriver>> m_pDriver;
@@ -71,17 +72,71 @@ protected:
     class TestDevice : public BaseDevice
     {
     public:
-        TestDevice(IDeviceDriverSPtr pDriver)
-            : BaseDevice("MyTestDevice", "TestDevice", pDriver)
+        TestDevice( IDeviceDriverSPtr pDriver )
+            : BaseDevice( DeviceName, DeviceType, pDriver )
         {
         }
+
+        static const std::string DeviceName;
+        static const std::string DeviceType;
     };
     TestDevice m_device;
 };
 
-TEST_F( BaseDeviceTests, xxx )
+const std::string BaseDeviceTests::TestDevice::DeviceName = "MyTestDevice";
+const std::string BaseDeviceTests::TestDevice::DeviceType = "TestDevice";
+
+TEST_F( BaseDeviceTests, InitialiseActionSuccess )
 {
+    std::function<void( DriverResponse )> cb = nullptr;
+    EXPECT_CALL( *m_pDriver, Initialise( _ ) ).WillOnce( SaveArg<0>( &cb ) );
+    m_device.Initialise();
+    ASSERT_TRUE( m_device.IsActionInProgress() );
+
+    cb( StandardDriverResponses::DriverOK );
+    ASSERT_FALSE( m_device.IsActionInProgress() );
+
+    ASSERT_NO_THROW( m_device.Wait() );
 }
 
-} // namespace Core
+TEST_F( BaseDeviceTests, InitialiseActionFailed )
+{
+    std::function<void( DriverResponse )> cb = nullptr;
+    EXPECT_CALL( *m_pDriver, Initialise( _ ) ).WillOnce( SaveArg<0>( &cb ) );
+    m_device.Initialise();
+    ASSERT_TRUE( m_device.IsActionInProgress() );
+
+    cb( StandardDriverResponses::DriverFailed );
+    ASSERT_FALSE( m_device.IsActionInProgress() );
+
+    ASSERT_THROW( m_device.Wait(), DeviceException );
+}
+
+TEST_F( BaseDeviceTests, ShutdownActionSuccess )
+{
+    std::function<void( DriverResponse )> cb = nullptr;
+    EXPECT_CALL( *m_pDriver, Shutdown( _ ) ).WillOnce( SaveArg<0>( &cb ) );
+    m_device.Shutdown();
+    ASSERT_TRUE( m_device.IsActionInProgress() );
+
+    cb( StandardDriverResponses::DriverOK );
+    ASSERT_FALSE( m_device.IsActionInProgress() );
+
+    ASSERT_NO_THROW( m_device.Wait() );
+}
+
+TEST_F( BaseDeviceTests, ShutdownActionFailed )
+{
+    std::function<void( DriverResponse )> cb = nullptr;
+    EXPECT_CALL( *m_pDriver, Shutdown( _ ) ).WillOnce( SaveArg<0>( &cb ) );
+    m_device.Shutdown();
+    ASSERT_TRUE( m_device.IsActionInProgress() );
+
+    cb( StandardDriverResponses::DriverFailed );
+    ASSERT_FALSE( m_device.IsActionInProgress() );
+
+    ASSERT_THROW( m_device.Wait(), DeviceException );
+}
+
+} // namespace Devices
 } // namespace Gadgets

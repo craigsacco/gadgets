@@ -87,5 +87,13 @@ Semaphore::Wait( std::chrono::milliseconds timeout_ms )
         return true;
     }
 }
+
+bool
+Semaphore::IsAcquired() const
+{
+    std::lock_guard<std::mutex> lock( m_mutex );
+
+    return m_acquired;
+}
 } // namespace Core
 } // namespace Gadgets

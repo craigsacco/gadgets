@@ -23,6 +23,7 @@
 #pragma once
 
 #include <Gadgets/Core/Semaphore.hpp>
+#include <Gadgets/Devices/DeviceException.hpp>
 #include <Gadgets/Devices/DriverResponse.hpp>
 #include <Gadgets/Devices/IDevice.hpp>
 
@@ -33,6 +34,10 @@ namespace Gadgets
 namespace Devices
 {
 
+#define THROW_DEVICE_EXCEPTION( msg, response )                                                    \
+    throw Gadgets::Devices::DeviceException( msg " [" __FILE__ ":" STRINGIZE(__LINE__) "]",        \
+                                                                             response )
+
 // Forward declarations
 class IDeviceDriver;
 using IDeviceDriverSPtr = std::shared_ptr<IDeviceDriver>;
@@ -42,7 +47,7 @@ using IDeviceDriverSPtr = std::shared_ptr<IDeviceDriver>;
  */
 class BaseDevice : public virtual IDevice
 {
-public:
+protected:
     /**
      * @brief       Constructor for this device.
      *
@@ -57,6 +62,7 @@ public:
      */
     virtual ~BaseDevice();
 
+public:
 #pragma region "Overrides from IObject"
     std::string Type() const override final;
 #pragma endregion
@@ -67,6 +73,7 @@ public:
     void Wait() override final;
     void Wait( std::chrono::milliseconds timeout_ms ) override final;
     std::string Name() const override final;
+    bool IsActionInProgress() const override final;
 #pragma endregion
 
     /**
@@ -104,18 +111,18 @@ protected:
     virtual DeviceResponse ToDeviceResponse( DriverResponse response ) const;
 
     /**
-     * @brief       Throws a specific exception on specific device responses.
+     * @brief       Handles the response from the action that just complete.
      *
-     * @param[in]   response    The device response code to use when throwing the appropriate
-     * exception.
+     * @param[in]   response    The device response code to handle.
      */
-    virtual void ResponseThrowOnError( DeviceResponse response ) const;
+    virtual void HandleActionResponse( DeviceResponse response ) const;
 
 private:
     const std::string m_name;
     const std::string m_type;
     IDeviceDriverSPtr m_pDriver;
     Gadgets::Core::Semaphore m_semaphore;
+    DeviceResponse m_lastActionResponse;
 };
 } // namespace Devices
 } // namespace Gadgets
