@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+// SPDX-License-Identifier: MIT
+
 #include <Gadgets/Core/LoggerSingleton.hpp>
 
 #include <iostream>

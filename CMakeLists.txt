@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# SPDX-License-Identifier: MIT
+
 cmake_minimum_required(VERSION 3.16)
 
 # define project name

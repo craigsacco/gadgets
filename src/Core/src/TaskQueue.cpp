@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+// SPDX-License-Identifier: MIT
+
 #include <Gadgets/Core/TaskQueue.hpp>
 
 namespace Gadgets

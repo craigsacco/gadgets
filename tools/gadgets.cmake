@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# SPDX-License-Identifier: MIT
+
 # common properties and definitions for all Gadgets projects
 function(set_gadgets_target_options __target__ __alias__ __idefolder___)
     set_target_properties(${__target__} PROPERTIES

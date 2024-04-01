@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+// SPDX-License-Identifier: MIT
+
 #include <Gadgets/Core/ExceptionMacros.hpp>
 #include <Gadgets/Core/ITaskQueue.hpp>
 #include <Gadgets/Devices/BaseDevice.hpp>

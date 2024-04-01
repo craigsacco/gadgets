@@ -20,10 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# SPDX-License-Identifier: MIT
+
 set -e
 
 # delete all existing coverage data files and outputs
-find . -type f -name *.gcda -print0 | xargs -0 rm -f
+find build-gcc/ -type f -name *.gcda -print0 | xargs -0 rm -f
 
 # generate initial coverage data
 lcov --capture --initial --base-directory . --directory build-gcc/src/ --output ./gadgets_init.lcov.info

@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+// SPDX-License-Identifier: MIT
+
 #include <Gadgets/Core/AssertionMacros.hpp>
 #include <Gadgets/Core/ITaskQueue.hpp>
 #include <Gadgets/Drivers/BaseDeviceDriver.hpp>

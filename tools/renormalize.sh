@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# SPDX-License-Identifier: MIT
+
 set -e
 
 find src/ -type f -print0 | xargs -0 dos2unix

@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+// SPDX-License-Identifier: MIT
+
 #include <Gadgets/Core/ITaskQueue.hpp>
 #include <Gadgets/Devices/DigitalOutputDevice.hpp>
 #include <Gadgets/Devices/IDigitalOutputDriver.hpp>

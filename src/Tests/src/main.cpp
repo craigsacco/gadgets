@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+// SPDX-License-Identifier: MIT
+
 #include <gtest/gtest.h>
 
 #define REGISTER_TEST( testname )                                                                  \

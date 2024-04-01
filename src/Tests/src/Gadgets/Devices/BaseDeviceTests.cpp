@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+// SPDX-License-Identifier: MIT
+
 #include <Gadgets/Core/MockTaskQueue.hpp>
 #include <Gadgets/Devices/BaseDevice.hpp>
 #include <Gadgets/Devices/MockDeviceDriver.hpp>

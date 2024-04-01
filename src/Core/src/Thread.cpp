@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+// SPDX-License-Identifier: MIT
+
 #include <Gadgets/Core/LoggerMacros.hpp>
 #include <Gadgets/Core/Thread.hpp>
 

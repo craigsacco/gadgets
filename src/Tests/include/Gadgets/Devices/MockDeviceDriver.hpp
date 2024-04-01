@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+// SPDX-License-Identifier: MIT
+
 #pragma once
 
 #include <Gadgets/Devices/IDeviceDriver.hpp>

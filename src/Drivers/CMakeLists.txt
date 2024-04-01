@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# SPDX-License-Identifier: MIT
+
 # add all subfolders
 add_subdirectory(Common)
 add_subdirectory(EmulatedDigitalOutput)
