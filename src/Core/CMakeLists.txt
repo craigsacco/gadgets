@@ -31,9 +31,9 @@ target_include_directories(GadgetsCore
     PRIVATE src
 )
 
-target_link_libraries(GadgetsCore
-    PUBLIC  Boost::asio
-)
+# target_link_libraries(GadgetsCore
+#     PUBLIC  Boost::asio
+# )
 
 target_sources(GadgetsCore
     PRIVATE src/LoggerSingleton.cpp

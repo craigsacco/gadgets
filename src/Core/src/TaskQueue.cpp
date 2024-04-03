@@ -30,8 +30,9 @@ namespace Core
 {
 TaskQueue::TaskQueue( const std::string& name )
     : Thread( name )
-    , m_context()
-    , m_workguard( boost::asio::make_work_guard( m_context ) )
+    , m_mutex()
+    , m_cv()
+    , m_queue()
 {
 }
 
@@ -50,26 +51,59 @@ TaskQueue::Run()
 {
     for ( ;; )
     {
-        m_context.run();
-        if ( IsStopping() )
+        std::unique_lock lock( m_mutex );
+
+        if (m_queue.empty())
+        {
+            // wait for new task to be inserted - process task if one exists in the queue
+            m_cv.wait( lock );
+            if (!m_queue.empty())
+            {
+                const auto task = m_queue.front();
+                m_queue.pop();
+                task();
+            }
+        }
+        else
+        {
+            // process task at the front of the queue
+            const auto task = m_queue.front();
+            m_queue.pop();
+            task();
+        }
+
+        // bail out if queue is empty and the thread is stopping
+        if (m_queue.empty() && IsStopping())
         {
             break;
         }
     }
-
-    m_context.reset();
 }
 
 void
 TaskQueue::NotifyStopping()
 {
-    m_context.stop();
+    std::lock_guard<std::mutex> lock( m_mutex );
+
+    // notify when the queue is empty so that the thread is woken up
+    if (m_queue.empty())
+    {
+        m_cv.notify_one();
+    }
 }
 
 void
 TaskQueue::BeginInvoke( std::function<void()> task )
 {
-    boost::asio::post( m_context, task );
+    std::lock_guard<std::mutex> lock( m_mutex );
+
+    // insert new task and notify thread if it was empty
+    const auto wasEmpty = m_queue.empty();
+    m_queue.push( task );
+    if (wasEmpty)
+    {
+        m_cv.notify_one();
+    }
 }
 } // namespace Core
 } // namespace Gadgets

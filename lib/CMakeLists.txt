@@ -22,15 +22,15 @@
 
 # include google test and boost folders
 add_subdirectory(googletest)
-add_subdirectory(boost)
+# add_subdirectory(boost)
 
 # when using GCC under Windows, CMake does not create the required folders prior to
 # calling windmc.exe on boost/libs/log/src/windows/simple_event_log.mc - this is a
 # workaround for that issue
-if ((CMAKE_SYSTEM_NAME STREQUAL "Windows") AND (CMAKE_CXX_COMPILER_ID STREQUAL "GNU"))
-    message("-- Gadgets: adding workaround for windmc.exe issue for boost_log")
-    file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/boost/libs/log/src/windows")
-endif()
+# if ((CMAKE_SYSTEM_NAME STREQUAL "Windows") AND (CMAKE_CXX_COMPILER_ID STREQUAL "GNU"))
+#     message("-- Gadgets: adding workaround for windmc.exe issue for boost_log")
+#     file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/boost/libs/log/src/windows")
+# endif()
 
 # set IDE folder to all targets in the current directory to "Libraries"
 function(update_lib_properties __dir__)

@@ -27,7 +27,9 @@
 #include <Gadgets/Core/ITaskQueue.hpp>
 #include <Gadgets/Core/Thread.hpp>
 
-#include <boost/asio.hpp>
+#include <condition_variable>
+#include <mutex>
+#include <queue>
 
 namespace Gadgets
 {
@@ -68,8 +70,9 @@ private:
     void NotifyStopping() override final;
 #pragma endregion
 
-    boost::asio::io_context m_context;
-    boost::asio::executor_work_guard<boost::asio::io_context::executor_type> m_workguard;
+    std::mutex m_mutex;
+    std::condition_variable m_cv;
+    std::queue<std::function<void()>> m_queue;
 };
 } // namespace Core
 } // namespace Gadgets
