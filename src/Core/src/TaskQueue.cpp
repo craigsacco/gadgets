@@ -53,11 +53,11 @@ TaskQueue::Run()
     {
         std::unique_lock lock( m_mutex );
 
-        if (m_queue.empty())
+        if ( m_queue.empty() )
         {
             // wait for new task to be inserted - process task if one exists in the queue
             m_cv.wait( lock );
-            if (!m_queue.empty())
+            if ( !m_queue.empty() )
             {
                 const auto task = m_queue.front();
                 m_queue.pop();
@@ -73,7 +73,7 @@ TaskQueue::Run()
         }
 
         // bail out if queue is empty and the thread is stopping
-        if (m_queue.empty() && IsStopping())
+        if ( m_queue.empty() && IsStopping() )
         {
             break;
         }
@@ -86,7 +86,7 @@ TaskQueue::NotifyStopping()
     std::lock_guard<std::mutex> lock( m_mutex );
 
     // notify when the queue is empty so that the thread is woken up
-    if (m_queue.empty())
+    if ( m_queue.empty() )
     {
         m_cv.notify_one();
     }
@@ -100,7 +100,7 @@ TaskQueue::BeginInvoke( std::function<void()> task )
     // insert new task and notify thread if it was empty
     const auto wasEmpty = m_queue.empty();
     m_queue.push( task );
-    if (wasEmpty)
+    if ( wasEmpty )
     {
         m_cv.notify_one();
     }
