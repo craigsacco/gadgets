@@ -28,7 +28,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <thread>
+#include <ctime>
+#include <random>
 
 using namespace ::testing;
 
@@ -153,6 +154,46 @@ TEST_F( TaskQueueTests, DispatchTasksCompleteBeforeCompleteStop )
             std::this_thread::sleep_for( std::chrono::milliseconds( 1000 ) );
             OnCallback( 5 );
         } );
+    m_taskQueue.Stop();
+}
+
+TEST_F( TaskQueueTests, RandomisedInsertionAndDispatch )
+{
+    // expect the specified number of tasks to be dispatched in order
+    constexpr uint32_t TasksToAdd = 100;
+    {
+        InSequence sequence;
+        for ( uint32_t i = 0; i < TasksToAdd; i++ )
+        {
+            EXPECT_CALL( *this, OnCallback( i + 1 ) ).Times( 1 );
+        }
+    }
+
+    // seed the random number generator with the epoch timestamp
+    std::srand(
+        static_cast<uint32_t>( std::chrono::system_clock::now().time_since_epoch().count() ) );
+
+    // general function for introducing a delay of up to 20ms
+    const auto randomiseDelay = []()
+    {
+        constexpr uint32_t MaxDelay_ms = 20;
+        const auto delay = std::chrono::milliseconds(
+            ( static_cast<uint64_t>( std::rand() ) * MaxDelay_ms ) / RAND_MAX );
+        std::this_thread::sleep_for( delay );
+    };
+
+    // randomise the timings of inserted and dispatched tasks
+    m_taskQueue.Start();
+    for ( uint32_t i = 0; i < TasksToAdd; i++ )
+    {
+        m_taskQueue.BeginInvoke(
+            [ this, i, randomiseDelay ]
+            {
+                OnCallback( i + 1 );
+                randomiseDelay();
+            } );
+        randomiseDelay();
+    }
     m_taskQueue.Stop();
 }
 

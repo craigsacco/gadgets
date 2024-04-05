@@ -56,7 +56,7 @@ public:
 
 #pragma region "Overrides from ITaskQueue"
     void
-    BeginInvoke( std::function<void()> task )
+    BeginInvoke( TaskFunction task )
     {
         if ( m_runOnInvoke )
         {
@@ -100,7 +100,7 @@ public:
 
 private:
     bool m_runOnInvoke;
-    std::queue<std::function<void()>> m_tasks;
+    std::queue<TaskFunction> m_tasks;
 };
 } // namespace Core
 } // namespace Gadgets

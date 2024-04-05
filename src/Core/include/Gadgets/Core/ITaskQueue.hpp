@@ -39,6 +39,11 @@ class ITaskQueue
 {
 public:
     /**
+     * @brief   Type definition for a task function.
+     */
+    using TaskFunction = std::function<void()>;
+
+    /**
      * @brief       Dispatches a task in the task queue and returns immediately.
      *
      * @details     If the task queue is empty, the task will be executed within the context of the
@@ -47,7 +52,7 @@ public:
      *
      * @param[in]   task    The task to dispatch into the queue.
      */
-    virtual void BeginInvoke( std::function<void()> task ) = 0;
+    virtual void BeginInvoke( TaskFunction task ) = 0;
 
 protected:
     ITaskQueue() = default;

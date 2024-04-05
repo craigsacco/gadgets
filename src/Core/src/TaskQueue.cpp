@@ -51,31 +51,40 @@ TaskQueue::Run()
 {
     for ( ;; )
     {
-        std::unique_lock lock( m_mutex );
+        TaskFunction task = nullptr;
 
-        if ( m_queue.empty() )
+        // synchronise access to the task queue
         {
-            // wait for new task to be inserted - process task if one exists in the queue
-            m_cv.wait( lock );
-            if ( !m_queue.empty() )
+            std::unique_lock lock( m_mutex );
+
+            if ( m_queue.empty() )
             {
-                const auto task = m_queue.front();
+                // if the thread is stopping, bail out since there are no more tasks to handle
+                if ( IsStopping() )
+                {
+                    return;
+                }
+
+                // wait for new task to be inserted - pop task if one exists in the queue
+                m_cv.wait( lock );
+                if ( !m_queue.empty() )
+                {
+                    task = m_queue.front();
+                    m_queue.pop();
+                }
+            }
+            else
+            {
+                // pop task at the front of the queue
+                task = m_queue.front();
                 m_queue.pop();
-                task();
             }
         }
-        else
-        {
-            // process task at the front of the queue
-            const auto task = m_queue.front();
-            m_queue.pop();
-            task();
-        }
 
-        // bail out if queue is empty and the thread is stopping
-        if ( m_queue.empty() && IsStopping() )
+        // execute task if it has been popped
+        if ( task != nullptr )
         {
-            break;
+            task();
         }
     }
 }
@@ -93,7 +102,7 @@ TaskQueue::NotifyStopping()
 }
 
 void
-TaskQueue::BeginInvoke( std::function<void()> task )
+TaskQueue::BeginInvoke( TaskFunction task )
 {
     std::lock_guard<std::mutex> lock( m_mutex );
 

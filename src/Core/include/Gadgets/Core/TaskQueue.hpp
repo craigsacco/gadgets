@@ -61,7 +61,7 @@ public:
 #pragma endregion
 
 #pragma region "Overrides from ITaskQueue"
-    void BeginInvoke( std::function<void()> task ) override final;
+    void BeginInvoke( TaskFunction task ) override final;
 #pragma endregion
 
 private:
@@ -72,7 +72,7 @@ private:
 
     std::mutex m_mutex;
     std::condition_variable m_cv;
-    std::queue<std::function<void()>> m_queue;
+    std::queue<TaskFunction> m_queue;
 };
 } // namespace Core
 } // namespace Gadgets
