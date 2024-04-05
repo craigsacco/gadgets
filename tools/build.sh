@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Copyright (c) 2024 Craig Sacco
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,34 +22,9 @@
 
 # SPDX-License-Identifier: MIT
 
-add_gadgets_executable(
-    TARGET      GadgetsTestRunner
-    ALIAS       Gadgets::TestRunner
-    IDEFOLDER   "Gadgets/Tests"
-)
+set -e
 
-target_include_directories(GadgetsTestRunner
-    PRIVATE include
-)
-
-target_link_libraries(GadgetsTestRunner
-    PUBLIC  Gadgets::Core
-            Gadgets::Devices::Common
-            Gadgets::Devices::DigitalOutput
-            gmock
-            gtest
-)
-
-target_sources(GadgetsTestRunner
-    PRIVATE include/Gadgets/Core/MockLogger.hpp
-            include/Gadgets/Core/MockTaskQueue.hpp
-            include/Gadgets/Devices/MockDeviceDriver.hpp
-            include/Gadgets/Devices/MockDigitalOutputDriver.hpp
-            
-            src/main.cpp
-            src/Gadgets/Core/LoggerSingletonTests.cpp
-            src/Gadgets/Core/SemaphoreTests.cpp
-            src/Gadgets/Core/TaskQueueTests.cpp
-            src/Gadgets/Devices/BaseDeviceTests.cpp
-            src/Gadgets/Devices/DigitalOutputDeviceTests.cpp
-)
+# build everything
+pushd build-gcc
+make -j`nproc`
+popd

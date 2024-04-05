@@ -53,6 +53,11 @@ class DigitalOutputDevice
 {
 public:
     /**
+     * @brief       Device type string.
+     */
+    static const std::string DeviceType;
+
+    /**
      * @brief       Constructor for an digital output device.
      *
      * @param[in]   name    The name of the device.

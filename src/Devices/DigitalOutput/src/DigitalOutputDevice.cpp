@@ -30,9 +30,12 @@ namespace Gadgets
 {
 namespace Devices
 {
+
+const std::string DigitalOutputDevice::DeviceType = "DigitalOutput";
+
 DigitalOutputDevice::DigitalOutputDevice( const std::string& name,
                                           IDigitalOutputDriverSPtr pDriver )
-    : BaseDevice( name, "DigitalOutput", pDriver )
+    : BaseDevice( name, DeviceType, pDriver )
     , m_pDriver( pDriver )
 {
 }

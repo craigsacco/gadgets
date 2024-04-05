@@ -45,7 +45,7 @@ public:
     {
         // setup task queue - execute invoked tasks immediately
         m_pTaskQueue->RunOnInvoke();
-        EXPECT_CALL( *m_pDriver, GetTaskQueue() ).WillRepeatedly( Return( m_pTaskQueue ) );
+        m_pDriver->SetTaskQueue( m_pTaskQueue );
     }
 
     void

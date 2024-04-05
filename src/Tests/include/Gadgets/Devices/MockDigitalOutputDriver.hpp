@@ -24,50 +24,48 @@
 
 #pragma once
 
-#include <Gadgets/Devices/IDeviceDriver.hpp>
+#include <Gadgets/Devices/IDigitalOutputDriver.hpp>
+#include <Gadgets/Devices/MockDeviceDriver.hpp>
 
-#include <gmock/gmock.h>
+#if defined( _MSC_VER )
+// methods inherited by dominance are fine - inhibit this warning (cleared at end
+// of file)
+#pragma warning( push )
+#pragma warning( disable : 4250 )
+#endif
 
 namespace Gadgets
 {
 namespace Devices
 {
 
-class MockDeviceDriver : public virtual IDeviceDriver
+class MockDigitalOutputDriver
+    : public MockDeviceDriver
+    , public virtual IDigitalOutputDriver
 {
 public:
-    MockDeviceDriver() = default;
-    virtual ~MockDeviceDriver() = default;
+    MockDigitalOutputDriver() = default;
+    virtual ~MockDigitalOutputDriver() = default;
 
-#pragma region "Overrides from IObject"
-    virtual std::string
+#pragma region "Overrides from MockDeviceDriver"
+    std::string
     Type() const override
     {
-        return "MockDeviceDriver";
+        return "MockDigitalOutputDriver";
     }
 #pragma endregion
 
-#pragma region "Overrides from IDeviceDriver"
-    MOCK_METHOD1( Initialise, void( std::function<void( DriverResponse )> cb ) );
-    MOCK_METHOD1( Shutdown, void( std::function<void( DriverResponse )> cb ) );
-    MOCK_CONST_METHOD0( Name, std::string() );
-
-    void
-    SetTaskQueue( Core::ITaskQueueSPtr pTaskQueue ) override final
-    {
-        m_pTaskQueue = pTaskQueue;
-    }
-
-    Core::ITaskQueueSPtr
-    GetTaskQueue() const override final
-    {
-        return m_pTaskQueue;
-    }
+#pragma region "Overrides from IDigitalOutputDriver"
+    MOCK_METHOD1( On, void( std::function<void( DriverResponse )> cb ) );
+    MOCK_METHOD1( Off, void( std::function<void( DriverResponse )> cb ) );
+    MOCK_METHOD2( SetState, void( bool state, std::function<void( DriverResponse )> cb ) );
+    MOCK_METHOD1( GetState, void( std::function<void( DriverResponse, bool )> cb ) );
 #pragma endregion
-
-private:
-    Core::ITaskQueueSPtr m_pTaskQueue;
 };
 
 } // namespace Devices
 } // namespace Gadgets
+
+#if defined( _MSC_VER )
+#pragma warning( pop )
+#endif
