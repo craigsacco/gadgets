@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # Copyright (c) 2024 Craig Sacco
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,37 +20,18 @@
 
 # SPDX-License-Identifier: MIT
 
-set -e
+param(
+     [Parameter()][ValidateSet("VS2022")][string] $Compiler = "VS2022"
+)
 
-# handle arguments
-COMPILER=
-if [[ $# -gt 1 ]]; then
-    echo "Too many arguments"
-    exit 1
-fi
-if [[ $# -gt 0 ]]; then
-    case $1 in
-        --gcc)
-            COMPILER=gcc
-            shift
-            ;;
-        --clang)
-            COMPILER=clang
-            shift
-            ;;
-        *)
-            echo "Unknown argument: $1"
-            exit 1
-            ;;
-    esac
-fi
+$ErrorActionPreference = "Stop"
 
-# set default options when not provided
-if [[ "$COMPILER" == "" ]]; then
-    COMPILER=gcc
-fi
+# Get number of CPUs on the host
+$Processors = (Get-CimInstance Win32_ComputerSystem).NumberOfLogicalProcessors
 
-# build everything
-pushd build-$COMPILER >> /dev/null
-make -j`nproc`
-popd >> /dev/null
+if ($Compiler -eq "VS2022") {
+    Push-Location -Path "build-vs17" | Out-Null
+    Start-Process -FilePath cmake.exe -ArgumentList "--build . -- -maxcpucount:$($Processors)" -NoNewWindow -Wait
+    #& cmake --build . -- -maxcpucount=($Processors)
+    Pop-Location | Out-Null
+}

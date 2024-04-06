@@ -26,18 +26,41 @@ set -e
 
 # handle arguments
 COMPILER=
-if [[ $# -gt 1 ]]; then
+CC=
+CXX=
+COVERAGE=
+if [[ $# -gt 2 ]]; then
     echo "Too many arguments"
     exit 1
 fi
-if [[ $# -gt 0 ]]; then
+while [[ $# -gt 0 ]]; do
     case $1 in
         --gcc)
+            if [[ "$COMPILER" != "" ]]; then
+                echo "Compiler option already specified"
+                exit 1
+            fi
             COMPILER=gcc
+            CC=gcc
+            CXX=g++
             shift
             ;;
         --clang)
+            if [[ "$COMPILER" != "" ]]; then
+                echo "Compiler option already specified"
+                exit 1
+            fi
             COMPILER=clang
+            CC=clang
+            CXX=clang++
+            shift
+            ;;
+        --coverage)
+            if [[ "$COVERAGE" != "" ]]; then
+                echo "Coverage option already specified"
+                exit 1
+            fi
+            COVERAGE=ON
             shift
             ;;
         *)
@@ -45,14 +68,20 @@ if [[ $# -gt 0 ]]; then
             exit 1
             ;;
     esac
-fi
+done
 
 # set default options when not provided
 if [[ "$COMPILER" == "" ]]; then
     COMPILER=gcc
+    CC=gcc
+    CXX=g++
+fi
+if [[ "$COVERAGE" == "" ]]; then
+    COVERAGE=OFF
 fi
 
-# build everything
+# configure
+mkdir -p build-$COMPILER
 pushd build-$COMPILER >> /dev/null
-make -j`nproc`
+cmake -DCMAKE_C_COMPILER=$CC -DCMAKE_CXX_COMPILER=$CXX -DGADGETS_WITH_COVERAGE=$COVERAGE -G "Unix Makefiles" ..
 popd >> /dev/null
