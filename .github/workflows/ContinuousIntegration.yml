@@ -47,7 +47,7 @@ jobs:
           echo "{\"label\":\"Coverage\",\"message\":\"$COVERAGE%\",\"schemaVersion\":1,\"color\":\"hsl(99, 100%, 40%)\"}" > $BADGE_ROOT/line_coverage.json
           cat $BADGE_ROOT/line_coverage.json
 
-      - #name: Create the Badge
+      #- name: Create the Badge
         #uses: schneegans/dynamic-badges-action@v1.7.0
         #with:
         #  auth: ${{ secrets.GIST_SECRET }}
