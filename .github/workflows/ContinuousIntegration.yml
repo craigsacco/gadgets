@@ -67,7 +67,8 @@ jobs:
           key: git-folder
 
       # newer version of clang is required due to issues with included version in the
-      # image - install v17.0.x and use clang-17/clang++-17 during project configuration
+      # image - install v17.0.x and add symlinks to the $HOME/.local/bin to override
+      # default clang/clang++ calls
       - name: Install newer Clang
         run: |
           wget https://apt.llvm.org/llvm.sh
@@ -76,7 +77,6 @@ jobs:
           mkdir -p $HOME/.local/bin
           ln -s `whereis -b clang-17 | cut -d " " -f 2` $HOME/.local/bin/clang
           ln -s `whereis -b clang++-17 | cut -d " " -f 2` $HOME/.local/bin/clang++
-          ls -la $HOME/.local/bin/*
 
       - name: Checkout Gadgets (recursively)
         uses: actions/checkout@v4
