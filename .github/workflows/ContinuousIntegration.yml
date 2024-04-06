@@ -73,6 +73,7 @@ jobs:
           wget https://apt.llvm.org/llvm.sh
           chmod +x ./llvm.sh
           sudo ./llvm.sh 17
+          mkdir -p $HOME/.local/bin
           ln -s `whereis -b clang-17 | cut -d " " -f 2` $HOME/.local/bin/clang
           ln -s `whereis -b clang++-17 | cut -d " " -f 2` $HOME/.local/bin/clang++
           ls -la $HOME/.local/bin/*
