@@ -8,7 +8,7 @@ Gadgets is a library providing a platform/architectural/infrastructure-neutral i
 
 | Branch | Status |
 | ------ | ------ |
-| master | [![Continuous Integration](https://github.com/craigsacco/gadgets/actions/workflows/ContinuousIntegration.yml/badge.svg?branch=master)](https://github.com/craigsacco/gadgets/actions/workflows/ContinuousIntegration.yml)
+| master | [![Continuous Integration](https://github.com/craigsacco/gadgets/actions/workflows/ContinuousIntegration.yml/badge.svg?branch=master)](https://github.com/craigsacco/gadgets/actions/workflows/ContinuousIntegration.yml) ![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/craigsacco/19481c67ff9d085f620f99aa697e7d5c/raw/gadgets-coverage-badge-master.json) |
 
 ## Building
 
