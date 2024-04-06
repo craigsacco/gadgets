@@ -71,5 +71,9 @@ private:
     LoggerSingleton() = delete;
     ~LoggerSingleton() = delete;
 };
+
+template <> std::shared_ptr<ILogger> Singleton<ILogger>::s_pSingleton;
+template <> std::mutex Singleton<ILogger>::s_mutex;
+
 } // namespace Core
 } // namespace Gadgets

@@ -37,8 +37,14 @@ function(set_gadgets_target_options __target__ __alias__ __idefolder___)
                     --pedantic
                     -Werror                 # warnings as errors
         )
+    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        target_compile_options(${__target__}
+            PRIVATE -Wall                   # enable all other warnings
+                    --pedantic
+                    -Werror                 # warnings as errors
+        )
     else()
-        message(FATAL_ERROR "Compiler not supported")
+        message(FATAL_ERROR "Compiler not supported: ${CMAKE_CXX_COMPILER_ID}")
     endif()
 endfunction()
 
