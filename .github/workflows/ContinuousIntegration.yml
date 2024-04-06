@@ -36,6 +36,27 @@ jobs:
           sudo apt-get -y install lcov
           tools/coverage.sh
 
+      - name: Extract Coverage Values
+        run: |
+          COVERAGE_LINES=`lcov --summary ./gadgets_filtered.lcov.info | grep "lines" | sed -r 's/.* ([0-9]*\.?[0-9]?)\%.*/\1/'`
+          COVERAGE_FUNCS=`lcov --summary ./gadgets_filtered.lcov.info | grep "functions" | sed -r 's/.* ([0-9]*\.?[0-9]?)\%.*/\1/'`
+          echo "Line coverage: $COVERAGE_LINES"
+          echo "Function coverage: $COVERAGE_FUNCS"
+          echo "COVERAGE_LINES=$COVERAGE_LINES" >> $GITHUB_ENV
+          echo "COVERAGE_FUNCS=$COVERAGE_FUNCS" >> $GITHUB_ENV
+
+      - name: Create the Badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 19481c67ff9d085f620f99aa697e7d5c
+          filename: gadgets-coverage-badge-master.json
+          label: Coverage
+          message: ${{ env.COVERAGE_LINES }}%
+          valColorRange: ${{ env.COVERAGE_LINES }}
+          maxColorRange: 100
+          minColorRange: 0
+
   build-and-test-linux-clang:
     runs-on: ubuntu-22.04
     steps:
