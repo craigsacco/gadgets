@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-test-linux-gcc:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Cache the Git repository folder
         uses: actions/cache@v4
@@ -37,13 +37,19 @@ jobs:
           tools/coverage.sh
 
   build-and-test-linux-clang:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Cache the Git repository folder
         uses: actions/cache@v4
         with:
           path: ./.git
           key: git-folder
+
+      - name: Install newer Clang
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x ./llvm.sh
+          sudo ./llvm.sh 17
 
       - name: Checkout Gadgets (recursively)
         uses: actions/checkout@v4
