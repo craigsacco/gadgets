@@ -44,8 +44,7 @@ jobs:
           echo "Function coverage: $COVERAGE_FUNCS percent"
           BADGES_ROOT=".pages/badges/`git rev-parse --abbrev-ref HEAD`"
           mkdir -p $BADGE_ROOT
-          echo "{\"label\":\"Coverage\",\"message\":\"$COVERAGE%\",\"schemaVersion\":1,\"color\":\"hsl(99, 100%, 4
-0%)\"}" > $BADGE_ROOT/line_coverage.json
+          echo "{\"label\":\"Coverage\",\"message\":\"$COVERAGE%\",\"schemaVersion\":1,\"color\":\"hsl(99, 100%, 40%)\"}" > $BADGE_ROOT/line_coverage.json
           cat $BADGE_ROOT/line_coverage.json
 
       - #name: Create the Badge
