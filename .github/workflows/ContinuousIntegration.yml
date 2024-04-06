@@ -45,6 +45,8 @@ jobs:
           path: ./.git
           key: git-folder
 
+      # newer version of clang is required due to issues with included version in the
+      # image - install v17.0.x and use clang-17/clang++-17 during project configuration
       - name: Install newer Clang
         run: |
           wget https://apt.llvm.org/llvm.sh
@@ -60,7 +62,7 @@ jobs:
       - name: Configure Gadgets
         run: |
           mkdir build-clang && cd build-clang
-          cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang ..
+          cmake -DCMAKE_C_COMPILER=clang-17 -DCMAKE_CXX_COMPILER=clang++-17 ..
 
       - name: Build Gadgets
         run: |
