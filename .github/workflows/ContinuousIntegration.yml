@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build-and-test:
+  build-and-test-linux-gcc:
     runs-on: ubuntu-latest
     steps:
       - name: Cache the Git repository folder
@@ -29,10 +29,39 @@ jobs:
 
       - name: Build Gadgets
         run: |
-          cd build-gcc
-          make -j`nproc`
+          tools/build.sh
 
       - name: Run Tests
         run: |
           sudo apt-get -y install lcov
           tools/coverage.sh
+
+  build-and-test-linux-clang:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache the Git repository folder
+        uses: actions/cache@v4
+        with:
+          path: ./.git
+          key: git-folder
+
+      - name: Checkout Gadgets (recursively)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Configure Gadgets
+        run: |
+          mkdir build-clang && cd build-clang
+          cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang ..
+
+      - name: Build Gadgets
+        run: |
+          cd build-clang
+          make -j`nproc`
+
+      - name: Run Tests
+        run: |
+          cd build-clang/src/Tests
+          ./GadgetsTestRunner
