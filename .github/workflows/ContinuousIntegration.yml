@@ -50,19 +50,7 @@ jobs:
           echo "{\"label\":\"Coverage\",\"message\":\"$COVERAGE_LINES%\",\"schemaVersion\":1,\"color\":\"hsl(99, 100%, 40%)\"}" > $BADGES_ROOT/line_coverage.json
           cat $BADGES_ROOT/line_coverage.json
 
-      #- name: Create the Badge
-        #uses: schneegans/dynamic-badges-action@v1.7.0
-        #with:
-        #  auth: ${{ secrets.GIST_SECRET }}
-        #  gistID: 19481c67ff9d085f620f99aa697e7d5c
-        #  filename: gadgets-coverage-badge-master.json
-        #  label: Coverage
-        #  message: ${{ env.COVERAGE_LINES }}%
-        #  valColorRange: ${{ env.COVERAGE_LINES }}
-        #  maxColorRange: 100
-        #  minColorRange: 0
-
-      - name: Deploy to GitHub Pages
+      - name: Deploy Badges to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/master'
         with:
