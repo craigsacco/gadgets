@@ -73,6 +73,9 @@ jobs:
           wget https://apt.llvm.org/llvm.sh
           chmod +x ./llvm.sh
           sudo ./llvm.sh 17
+          ln -s `whereis -b clang-17 | cut -d " " -f 2` $HOME/.local/bin/clang
+          ln -s `whereis -b clang++-17 | cut -d " " -f 2` $HOME/.local/bin/clang++
+          ls -la $HOME/.local/bin/*
 
       - name: Checkout Gadgets (recursively)
         uses: actions/checkout@v4
@@ -82,7 +85,6 @@ jobs:
 
       - name: Configure Gadgets
         run: |
-          echo "$PATH"
           tools/configure.sh --clang
 
       - name: Build Gadgets
