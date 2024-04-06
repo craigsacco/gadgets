@@ -32,6 +32,5 @@ $Processors = (Get-CimInstance Win32_ComputerSystem).NumberOfLogicalProcessors
 if ($Compiler -eq "VS2022") {
     Push-Location -Path "build-vs17" | Out-Null
     Start-Process -FilePath cmake.exe -ArgumentList "--build . -- -maxcpucount:$($Processors)" -NoNewWindow -Wait
-    #& cmake --build . -- -maxcpucount=($Processors)
     Pop-Location | Out-Null
 }
