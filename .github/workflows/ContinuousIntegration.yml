@@ -43,9 +43,9 @@ jobs:
           echo "Line coverage: $COVERAGE_LINES percent"
           echo "Function coverage: $COVERAGE_FUNCS percent"
           BADGES_ROOT=".pages/badges/`git rev-parse --abbrev-ref HEAD`"
-          mkdir -p $BADGE_ROOT
-          echo "{\"label\":\"Coverage\",\"message\":\"$COVERAGE%\",\"schemaVersion\":1,\"color\":\"hsl(99, 100%, 40%)\"}" > $BADGE_ROOT/line_coverage.json
-          cat $BADGE_ROOT/line_coverage.json
+          mkdir -p $BADGES_ROOT
+          echo "{\"label\":\"Coverage\",\"message\":\"$COVERAGE%\",\"schemaVersion\":1,\"color\":\"hsl(99, 100%, 40%)\"}" > $BADGES_ROOT/line_coverage.json
+          cat $BADGES_ROOT/line_coverage.json
 
       #- name: Create the Badge
         #uses: schneegans/dynamic-badges-action@v1.7.0
