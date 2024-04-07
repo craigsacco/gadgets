@@ -28,8 +28,11 @@ namespace Gadgets
 {
 namespace Drivers
 {
+
+const std::string EmulatedDigitalOutputDriver::DriverType = "EmulatedDigitalOutputDriver";
+
 EmulatedDigitalOutputDriver::EmulatedDigitalOutputDriver( const std::string& name )
-    : BaseDeviceDriver( name, "EmulatedDigitalOutputDriver" )
+    : BaseDeviceDriver( name, DriverType )
     , m_state( false )
 {
 }

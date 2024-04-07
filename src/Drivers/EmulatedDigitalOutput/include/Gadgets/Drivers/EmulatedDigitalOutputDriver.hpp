@@ -48,6 +48,11 @@ class EmulatedDigitalOutputDriver
 {
 public:
     /**
+     * @brief       Driver type string.
+     */
+    static const std::string DriverType;
+
+    /**
      * @brief       Constructor for an emulated digital output driver.
      *
      * @param[in]   name    The name of the driver.
@@ -79,6 +84,7 @@ public:
 
 private:
     bool m_state;
+    friend class EmulatedDigitalOutputDriverTests;
 };
 } // namespace Drivers
 } // namespace Gadgets

@@ -34,6 +34,7 @@ target_link_libraries(GadgetsTestRunner
     PUBLIC  Gadgets::Core
             Gadgets::Devices::Common
             Gadgets::Devices::DigitalOutput
+            Gadgets::Drivers::EmulatedDigitalOutput
             gmock
             gtest
 )
@@ -50,4 +51,5 @@ target_sources(GadgetsTestRunner
             src/Gadgets/Core/TaskQueueTests.cpp
             src/Gadgets/Devices/BaseDeviceTests.cpp
             src/Gadgets/Devices/DigitalOutputDeviceTests.cpp
+            src/Gadgets/Drivers/EmulatedDigitalOutputDriverTests.cpp
 )
